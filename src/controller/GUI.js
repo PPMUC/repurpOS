@@ -1,0 +1,1 @@
+export const PROFILE_ADD_POINT_FORWARD_TIME = 30;

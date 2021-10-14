@@ -1,4 +1,4 @@
-# plasticOS
+# repurpOS
 
 ## Project setup
 
@@ -30,14 +30,13 @@ Settings for machine are in controller/machine.js
 - Bottom bar status
 - Settings menu
 - Testing and implementing modularity to new machine
+- Dynamic load of configuration files (machine.js, etc.)
 - Software update system
 - Arduino update system
 - Loading screen
 
-
-
-
 ### OLD:
+
 ### Compiles and minifies for production
 
 ```

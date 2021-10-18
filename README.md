@@ -34,6 +34,7 @@ Settings for machine are in controller/machine.js
 - Software update system
 - Arduino update system
 - Loading screen
+- Manual overrides
 
 ### OLD:
 

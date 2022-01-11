@@ -133,7 +133,7 @@
   //import ProfileChart from "@/components/ProfileChart"
   import { mapGetters, mapActions, mapMutations } from 'vuex'
   import ApexChart from "vue3-apexcharts";
-  import * as machineVariables from "@/controller/machine";
+  import * as machineVariables from "@/controller/machine_info";
   import * as gui from "@/controller/GUI";
 
   export default {

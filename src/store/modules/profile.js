@@ -1,5 +1,5 @@
 // import machineController from "@/controller";
-import * as machineVariables from "@/controller/machine";
+import * as machineVariables from "@/controller/machine_info";
 import * as Util from "@/classes/Util";
 import { ErrorCodes } from "vue";
 // import router from "../../router";

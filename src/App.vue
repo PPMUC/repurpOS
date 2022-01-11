@@ -7,7 +7,7 @@
 </template>
 
 <style lang="scss">
-  @import './assets/css/app.scss';
+  @import "./assets/css/app.scss";
   @import "../node_modules/uikit/dist/css/uikit.css";
 
   body {
@@ -19,6 +19,9 @@
   // @ is an alias to /src
   import BottomBar from "@/components/BottomBar.vue";
   import TopBar from "@/components/TopBar.vue";
+
+  import * as GUI from "@/controller/GUI";
+
   export default {
     name: "Home",
     components: {
@@ -31,10 +34,10 @@
     computed: {
       showTopBar() {
         let currentRoute = this.$router.currentRoute.value.name;
-        if (currentRoute === "Run" ||
-          currentRoute === "Stop") {
-          return true;
-        }
+        for (let allowedPage of GUI.SHOW_TOP_BAR_PAGES)
+          if (currentRoute === allowedPage) {
+            return true;
+          }
         return false;
       }
     }

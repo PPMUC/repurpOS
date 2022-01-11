@@ -21,7 +21,7 @@
 <script>
   // @ is an alias to /src
   import NumDisplay from "@/components/NumDisplay"
-  import * as machineVariables from "@/controller/machine";
+  import * as machineVariables from "@/controller/machine_info";
   import { mapGetters } from 'vuex'
 
   export default {

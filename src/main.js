@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+//const SerialPort = require("serialport");
 
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
@@ -15,6 +16,7 @@ let vm = createApp(App).use(store).use(router).mount("#app");
 
 // components can be called from the imported UIkit reference
 //UIkit.notification("Hello world.");
-logic.app = vm;
+let controller = new logic(vm);
+vm.$store.commit("machine/setLogic", controller);
 
 console.log(vm.$store.state.profile.current);

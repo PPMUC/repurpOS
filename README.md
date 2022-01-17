@@ -31,24 +31,24 @@ These files come from the platform configuration repository
 
 # ROADMAP
 
-- Obeying limits set in machine_info.js
-- Linear Extrapolation
+- ~~Obeying limits set in machine_info.js~~
+- ~~Linear Extrapolation~~
 
-* Stopping at required points in profile
-* Sending temperature data
-* Saving and loading profiles
-* Shortcuts menu
-* Bottom bar status
-* Settings menu
-* Testing and implementing modularity to new machine
-* CI of multiple installers
-* Communication with arduino
-* Software update system
-* Arduino update system
-* Loading screen/start menu
-* Manual overrides
-* Switch serialport to IPC instead of electron remote
-* Limit switches visualisation
+- Stopping at required points in profile
+- Sending temperature data
+- Saving and loading profiles
+- Shortcuts menu
+- Bottom bar status
+- Settings menu
+- Testing and implementing modularity to new machine
+- CI of multiple installers
+- Communication with arduino
+- Software update system
+- Arduino update system
+- Loading screen/start menu
+- Manual overrides
+- Switch serialport to IPC instead of electron remote
+- Limit switches visualisation
 
 # Creating a new platform
 

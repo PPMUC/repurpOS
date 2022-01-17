@@ -1,24 +1,28 @@
 <template>
-  <div class="uk-grid-column-small uk-grid-row-small uk-preserve-height uk-preserve-width uk-child-width-1-4@s uk-padding-small" uk-grid>
+  <div  uk-grid>
     <div id="leftBottomBar" class="uk-width-1-2 uk-text-left">
-        <router-link id="item-padding" to="/home" class="override-colours">
+        <router-link id="status-bar-item" to="/">
           <i class="fa fa-home"></i>  
         </router-link>
 
-        <router-link id="item-padding" to="/profile" class="override-colours">
+        <router-link id="status-bar-item" to="/profile">
           <i class="fa fa-line-chart"></i>  
         </router-link>
     
-        <span id="item-padding">Current Status</span>
+        <router-link id="status-bar-item" to="/">
+          <span>Current Status</span>
+        </router-link>
     </div>
     <div id="rightBottomBar" class="uk-width-1-2 uk-text-right">
-        <span id="item-padding">Other vital info</span>
+        <router-link id="status-bar-item" to="/">
+          <span>Other vital info</span>
+        </router-link>
 
-        <router-link id="item-padding" to="/shortcuts" class="override-colours">
+        <router-link id="status-bar-item" to="/shortcuts">
           <i class="fa fa-wrench"></i>  
         </router-link>
 
-        <router-link id="item-padding" to="/settings" class="override-colours">
+        <router-link id="status-bar-item" to="/settings">
           <i class="fa fa-gear"></i>  
         </router-link>
     </div>
@@ -47,6 +51,8 @@
   left: 0px;
   bottom: 0px;
   background-color: variables.$darkPPMColour;
+  line-height: 1.5;
+  padding-left: 10px;
   color: white;
 }
  #rightBottomBar{
@@ -54,18 +60,23 @@
   right: 0px;
   bottom: 0px;
   background-color: variables.$darkPPMColour;
-  color: white;
+  line-height: 1.5;
   padding-right: 10px;
+  color: white;
 }
- #item-padding{
+ #status-bar-item{
+   padding-top:3px;
+   padding-bottom:4px;
    padding-right: 10px;
    padding-left: 10px;
+   text-decoration: none;
+   color: white;
+   background: variables.$darkPPMColour;
  }
 
- .override-colours{
+ #status-bar-item:hover{
    color: white;
+   background: variables.$darkPPMColourHover;
  }
- .override-colours:hover{
-   color: lightgrey;
- }
+
 </style>

@@ -15,4 +15,4 @@ export const SETTINGS = [
 ];
 
 //Pages to show the top bar on
-export const SHOW_TOP_BAR_PAGES = ["Run", "Stop", "Settings"];
+export const SHOW_TOP_BAR_PAGES = ["Run", "Stop", "Settings", "Shortcuts"];

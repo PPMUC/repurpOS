@@ -48,6 +48,11 @@
                 >First Time Setup</router-link
               >
             </li>
+            <li>
+              <router-link to="/shortcuts" class=""
+                >Shortcuts</router-link
+              >
+            </li>
           </ul>
         </div>
       </div>

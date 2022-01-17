@@ -37,6 +37,15 @@ const routes = [
       import(/* webpackChunkName: "Settings" */ "../views/Settings.vue")
   },
   {
+    path: "/shortcuts",
+    name: "Shortcuts",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "Shortcuts" */ "../views/Shortcuts.vue")
+  },
+  {
     path: "/first-time",
     name: "First Time setup",
     // route level code-splitting

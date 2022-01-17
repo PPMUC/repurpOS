@@ -2,10 +2,11 @@
   <div class="uk-section uk-section-secondary uk-padding-remove">
     <div class="uk-flex uk-padding-small uk-margin-remove" uk-grid>
       <button
+        @click="stopSheetPress"
         v-if="isRunning"
         class="uk-button uk-button-large uk-button-danger uk-width-1-2"
       >
-        <span class="uk-text" @click="stopSheetPress">Stop Sheet press</span>
+        <span class="uk-text">Stop Sheet press</span>
       </button>
       <button
         v-if="!isRunning"

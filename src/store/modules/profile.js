@@ -10,13 +10,13 @@ const state = function () {
   return {
     proposed: [],
     current: [
-      new machineVariables.CONTROL_STATE(0, [10, 5]),
-      new machineVariables.CONTROL_STATE(100, [30, 10]),
-      new machineVariables.CONTROL_STATE(200, [7, 6])
+      new machineVariables.CONTROL_STATE(0, [0, 0]),
+      new machineVariables.CONTROL_STATE(7, [30, 10], true),
+      new machineVariables.CONTROL_STATE(10, [7, 6])
     ],
     actual: [
       new machineVariables.CONTROL_STATE(0),
-      new machineVariables.CONTROL_STATE(500)
+      new machineVariables.CONTROL_STATE(10)
     ]
   };
 };

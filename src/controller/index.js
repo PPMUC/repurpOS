@@ -48,6 +48,9 @@ export default class controller {
     return 1;
   }
 
+  /**
+   * Runs every loop to update MCU of temperature values and other
+   */
   sendMCUUpdate() {
     console.log("startin");
     let runCountSeconds = this.machineRunCounter / 1000;
@@ -91,13 +94,36 @@ export default class controller {
     //Send it out
     this._comms.setTemperatures();
 
-    //Increment counters if necessary
     let allowedToContinue = true;
+    //Check if we're at an inflection point (at a profile point)
+    if (
+      runCountSeconds - lowProfile.time <
+      machine_info.MCU_UPDATE_INTERVAL / 1000
+    ) {
+      //We are at an inflection point
+      if (lowProfile.required) {
+        //allowedToContinue = this.checkHitProfile(lowProfile);
+        console.log("We hit a required point");
+      }
+    }
+    //Increment counters if necessary
     if (allowedToContinue) {
       this.machineRunCounter += Date.now() - this.lastUpdateTime;
       this.lastUpdateTime = Date.now();
     }
     console.log(this.machineRunCounter);
+  }
+
+  /**
+   * Checks that we have satisfied all the requirements of a profile
+   *
+   * @returns {Boolean} True if all requirements are satsified within tolerances
+   */
+  checkHitProfile(profile) {
+    // for (const [key] of Object.entries(machine_info.HEATING_ZONES)) {
+    // }
+    // for (const [key] of Object.entries(machine_info.REQUIRED_SENSOR_INFO)) {
+    // }
   }
 
   //Runs when theres new data from machine

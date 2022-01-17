@@ -57,7 +57,15 @@ export const getClosestObjectBelow = (data, property, target) => {
 
 /**
  * Linearly extrapolates data
- 
+ * @param {Number} lowProfileX x coordinate of point 1
+ * @param {Number} lowProfileY y coordinate of point 1
+ * @param {Number} highProfileX x coordinate of point 2
+ * @param {Number} highProfileY y coordinate of point 2
+ * @param {Number} newX new x coordinate to find y of
+ * @return {Number} The y value at the given x
+ * @usage
+ *   let result = linearExtrapolateData(1, 1, 2, 2, 3);
+ *  //Result = 3;
  */
 export const linearExtrapolateData = (
   lowProfileX,

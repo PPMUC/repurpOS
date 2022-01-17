@@ -6,6 +6,8 @@
 npm install
 ```
 
+note: you need to install node js to have npm on your computer
+
 ## For easy dev with a GUI:
 
 1. [Install Vue UI](https://cli.vuejs.org/guide/installation.html)

@@ -19,7 +19,7 @@
         </router-link>
 
         <router-link id="status-bar-item" to="/shortcuts">
-          <i class="fa fa-wrench"></i>  
+          <i class="fa fa-th-large"></i>  
         </router-link>
 
         <router-link id="status-bar-item" to="/settings">

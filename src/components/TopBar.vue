@@ -1,61 +1,69 @@
 <template>
   <div class="uk-section uk-section-secondary uk-padding-remove">
-    <div class="uk-flex uk-padding-small uk-margin-remove" uk-grid>
-      <button
-        @click="stopSheetPress"
-        v-if="isRunning"
-        class="uk-button uk-button-large uk-button-danger uk-width-1-2"
-      >
-        <span class="uk-text">Stop Sheet press</span>
-      </button>
-      <button
-        v-if="!isRunning"
-        @click="startSheetPress"
-        class="uk-button uk-button-large uk-button-primary uk-width-1-2"
-      >
-        <span class="uk-text">Start Sheet press</span>
-      </button>
-      <router-link
-        to="/Profile"
-        class="uk-margin-left uk-margin-right uk-padding-remove"
-      >
-        <button class="uk-button uk-button-large uk-button-default">
-          <span class="uk-text">Adjust Profile</span>
-        </button>
-      </router-link>
-      <div class="uk-inline uk-width-expand uk-margin-remove uk-padding-remove">
+    <div class="uk-flex uk-padding-small uk-grid-column-small uk-grid-row-small" uk-grid>
+      <div class="uk-width-1-2">
         <button
-          class="uk-button uk-button-default uk-height-1-1 uk-width-1-1"
-          type="button"
+          @click="stopSheetPress"
+          v-if="isRunning"
+          class="uk-button uk-button-large uk-button-danger uk-width-1-1 button-padding"
         >
-          More <span uk-icon="icon:  triangle-down"></span>
+          <span class="uk-text">Stop Sheet press</span>
         </button>
-        <div
-          id="MainDrop"
-          uk-dropdown="mode: click; boundary: ! .uk-button-group; boundary-align: true;"
+        <button
+          v-if="!isRunning"
+          @click="startSheetPress"
+          class="uk-button uk-button-large uk-button-primary uk-width-1-1 button-padding"
         >
-          <ul class="uk-nav uk-dropdown-nav uk-text-emphasis">
-            <li>
-              <router-link to="/Settings" class=""> Settings </router-link>
-            </li>
-            <li class="uk-nav-header">Header</li>
-            <li><a href="#">Item</a></li>
-            <li><a href="#">Item</a></li>
-            <li class="uk-nav-divider"></li>
-            <li class="uk-active"><a href="#">Active</a></li>
-            <li>
-              <router-link to="/first-time" class=""
-                >First Time Setup</router-link
-              >
-            </li>
-            <li>
-              <router-link to="/shortcuts" class=""
-                >Shortcuts</router-link
-              >
-            </li>
-          </ul>
+          <span class="uk-text">Start Sheet press</span>
+        </button>
+      </div>
+
+      <div class="uk-width-1-4">
+        <router-link
+          to="/Profile"
+        >
+          <button class="uk-button uk-button-large uk-button-default uk-width-1-1 button-padding">
+            <span class="uk-text uk-width-1-1">Adjust Profile</span>
+          </button>
+        </router-link>
+      </div>
+
+      <div class="uk-width-1-4">
+        <div class="uk-width-expand">
+          <button
+            class="uk-button uk-button-large uk-button-default uk-width-1-1 button-padding"
+            type="button"
+          >
+            More <span uk-icon="icon:  triangle-down"></span>
+          </button>
+          <div
+            id="MainDrop"
+            uk-dropdown="mode: click; boundary: ! .uk-button-group; boundary-align: true;"
+          >
+            <ul class="uk-nav uk-dropdown-nav uk-text-emphasis">
+              <li>
+                <router-link to="/Settings" class=""> Settings </router-link>
+              </li>
+              <li class="uk-nav-header">Header</li>
+              <li><a href="#">Item</a></li>
+              <li><a href="#">Item</a></li>
+              <li class="uk-nav-divider"></li>
+              <li class="uk-active"><a href="#">Active</a></li>
+              <li>
+                <router-link to="/first-time" class=""
+                  >First Time Setup</router-link
+                >
+              </li>
+              <li>
+                <router-link to="/shortcuts" class=""
+                  >Shortcuts</router-link
+                >
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
+      
     </div>
   </div>
 </template>
@@ -93,5 +101,10 @@
   }
   #MainDrop {
     background-color: variables.$darkPPMColour;
+  }
+  .button-padding {
+    padding: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 </style>

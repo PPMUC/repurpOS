@@ -51,7 +51,7 @@
   left: 0px;
   bottom: 0px;
   background-color: variables.$darkPPMColour;
-  line-height: 1.5;
+  line-height: 2; //changed to 2 to make it bigger - makes overall left bar bigger
   padding-left: 10px;
   color: white;
 }
@@ -60,11 +60,11 @@
   right: 0px;
   bottom: 0px;
   background-color: variables.$darkPPMColour;
-  line-height: 1.5;
+  line-height: 2; //changed to 2 to make it bigger - makes overall right bar bigger
   padding-right: 10px;
   color: white;
 }
- #status-bar-item{
+ #status-bar-item{ //can change to fit / align to make bigger
    padding-top:3px;
    padding-bottom:4px;
    padding-right: 10px;

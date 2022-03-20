@@ -9,13 +9,15 @@
           <i class="fa fa-line-chart"></i>  
         </router-link>
     
+    <!--ID: Current Status ID created so that text can be updated accordingly-->
         <router-link id="status-bar-item" to="/">
-          <span>Current Status</span>
+          <span id="current-status">Current Status</span>
         </router-link>
     </div>
     <div id="rightBottomBar" class="uk-width-1-2 uk-text-right">
+        <!--ID: Vital Info ID created so that text can be updated accordingly-->
         <router-link id="status-bar-item" to="/">
-          <span>Other vital info</span>
+          <span id="vital-info">Other vital info</span>
         </router-link>
 
         <router-link id="status-bar-item" to="/shortcuts">

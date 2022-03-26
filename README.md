@@ -37,8 +37,8 @@ These files come from the platform configuration repository
 - Stopping at required points in profile
 - Sending temperature data
 - Saving and loading profiles
-- Shortcuts menu
-- Bottom bar status
+- Shortcuts menu - user editable
+- Bottom bar status - add info from platform file
 - Settings menu
 - Testing and implementing modularity to new machine
 - CI of multiple installers

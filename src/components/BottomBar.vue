@@ -10,7 +10,7 @@
         </router-link>
     
         <router-link id="status-bar-item" to="/">
-          <span v-text="statusOptions[status]"></span>
+          <span v-text="statusOptions[checkStatus]"></span>
         </router-link>
     </div>
     <div id="rightBottomBar" class="uk-width-1-2 uk-text-right">
@@ -31,30 +31,35 @@
 
 <script>
   // @ is an alias to /src
+  import state from "@/store/modules/machine.js";
 
   export default {
     name: "Home",
     components: {
     },
+    computed: {
+      checkStatus() {
+        if (state.isRunning) {
+          return 'on';
+        } else {
+          return 'off';
+        }
+      }
+    },
     data: function () {
       return {
-        status: 'h',
+        status: 'on',
         statusOptions: {
-          h: 'Sheet Press Heating', 
-          on: 'Sheet Press Running', 
-          off: 'Sheet Press Stopped'
+          // h: 'Sheet Press Heating ...', 
+          on: 'Sheet Press Running!', 
+          off: 'Sheet Press Stopped.'
           },
         info: 'p',
         vitalInfo: {
           p: 'Placeholder (Vital Info)'
-        }
+        },
       };
     },
-    computed: {
-      displayStatus() {
-        return this.options.filter(i => i[this.status]);
-      }
-    }
   };
 </script>
 

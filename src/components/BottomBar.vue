@@ -9,15 +9,13 @@
           <i class="fa fa-line-chart"></i>  
         </router-link>
     
-    <!--ID: Current Status ID created so that text can be updated accordingly-->
         <router-link id="status-bar-item" to="/">
-          <span id="current-status">Current Status</span>
+          <span v-text="statusOptions[status]"></span>
         </router-link>
     </div>
     <div id="rightBottomBar" class="uk-width-1-2 uk-text-right">
-        <!--ID: Vital Info ID created so that text can be updated accordingly-->
         <router-link id="status-bar-item" to="/">
-          <span id="vital-info">Other vital info</span>
+          <span v-text="vitalInfo[info]"></span>
         </router-link>
 
         <router-link id="status-bar-item" to="/shortcuts">
@@ -39,7 +37,23 @@
     components: {
     },
     data: function () {
-      return {};
+      return {
+        status: 'h',
+        statusOptions: {
+          h: 'Sheet Press Heating', 
+          on: 'Sheet Press Running', 
+          off: 'Sheet Press Stopped'
+          },
+        info: 'p',
+        vitalInfo: {
+          p: 'Placeholder (Vital Info)'
+        }
+      };
+    },
+    computed: {
+      displayStatus() {
+        return this.options.filter(i => i[this.status]);
+      }
     }
   };
 </script>

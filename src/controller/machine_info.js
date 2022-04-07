@@ -1,11 +1,11 @@
 export const HEATING_ZONES = {
   0: {
     name: "top plate",
-    limits: [0, 1000]
+    limits: [0, 400]
   },
   1: {
     name: "bottom plate",
-    limits: [0, 1000]
+    limits: [0, 400]
   }
 };
 
@@ -70,6 +70,8 @@ export const LIM_SWITCH_INFO = {
   }
 };
 
+export const TEMP_TOLERANCE = 5;
+
 export class CONTROL_STATE {
   constructor(
     time = 0,
@@ -99,5 +101,3 @@ export class CONTROL_STATE {
     );
   }
 }
-
-export const PROFILE_ADD_POINT_FORWARD_TIME = 30;

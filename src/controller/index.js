@@ -1,6 +1,7 @@
 import machine_comms from "./machine_comms";
 import * as machine_info from "./machine_info";
 import * as Util from "@/classes/Util";
+import state from "./profile";
 
 export default class controller {
   constructor(app) {
@@ -75,7 +76,7 @@ export default class controller {
       );
       this.app.$store.commit("machine/setSetpoint", [
         key,
-        Math.round(setpoint)
+        Math.round(setpoint),
       ]);
     }
     for (const [key] of Object.entries(machine_info.REQUIRED_SENSOR_INFO)) {
@@ -88,7 +89,7 @@ export default class controller {
       );
       this.app.$store.commit("machine/setRequiredSensorSetpoint", [
         key,
-        Math.round(setpoint)
+        Math.round(setpoint),
       ]);
     }
     //Send it out
@@ -102,8 +103,9 @@ export default class controller {
     ) {
       //We are at an inflection point
       if (lowProfile.required) {
-        //allowedToContinue = this.checkHitProfile(lowProfile);
         console.log("We hit a required point");
+        // check if requirements of profile are met
+        allowedToContinue = this.checkHitProfile(lowProfile);
       }
     }
     //Increment counters if necessary
@@ -120,10 +122,19 @@ export default class controller {
    * @returns {Boolean} True if all requirements are satsified within tolerances
    */
   checkHitProfile(profile) {
-    // for (const [key] of Object.entries(machine_info.HEATING_ZONES)) {
-    // }
-    // for (const [key] of Object.entries(machine_info.REQUIRED_SENSOR_INFO)) {
-    // }
+    for (let i = 0; i < profile.state.tempControllers.length; i++) {
+      if (
+        profile.getters["machine/tempControllerCurrent"][i] >
+          profile.getters["machine/tempControllerSetpoints"][i] +
+            machine_info.TEMP_TOLERANCE ||
+        profile.getters["machine/tempControllerCurrent"][i] <
+          profile.getters["machine/tempControllerSetpoints"][i] -
+            machine_info.TEMP_TOLERANCE
+      ) {
+        return false;
+      }
+    }
+    return true;
   }
 
   //Runs when theres new data from machine

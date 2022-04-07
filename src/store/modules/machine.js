@@ -64,6 +64,13 @@ const getters = {
   temperatureControllers(state) {
     return state.tempControllers;
   },
+  tempControllerCurrent(state) {
+    let current = [];
+    for (let i = 0; i < state.tempControllers.length; i++) {
+      current.push(state.tempControllers[i].current);
+    }
+    return current;  
+  },
   tempControllerSetpoints(state) {
     let setpoints = [];
     for (let i = 0; i < state.tempControllers.length; i++) {

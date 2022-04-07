@@ -1,7 +1,6 @@
 import machine_comms from "./machine_comms";
 import * as machine_info from "./machine_info";
 import * as Util from "@/classes/Util";
-import state from "./profile";
 
 export default class controller {
   constructor(app) {

@@ -24,11 +24,16 @@
           :name="tcon.name"
           :isBig="true"
           :setpoint="tcon.setpoint"
+          @click="displayInput()"
         >
         </NumDisplay>
       </div>
       <!-- INPUTS FOR MANUAL OVERRIDES -->
-      <div class="uk-flex uk-padding-remove uk-width-1-1" uk-grid>
+      <div
+        v-if="display"
+        class="uk-flex uk-padding-remove uk-width-1-1"
+        uk-grid
+      >
         <div
           v-for="tcon in temperatureControllers"
           :key="tcon.name"
@@ -45,6 +50,7 @@
           </button>
         </div>
       </div>
+      <span v-if="warning">Setpoint must be between 0 and 400 degrees</span>
       <!-- HOOD AND FRAME TEMPERATURES -->
       <div class="uk-flex uk-padding-remove uk-width-1-1" uk-grid>
         <div v-for="num in smallSensors" :key="num.name" class="uk-width-1-2">
@@ -75,6 +81,8 @@ export default {
   data: function () {
     return {
       OPTIONAL_SENSOR_INFO: machineVariables.OPTIONAL_SENSOR_INFO,
+      display: false,
+      warning: false
     };
   },
   computed: {
@@ -94,22 +102,29 @@ export default {
         value > machineVariables.HEATING_ZONES[0].limits[0] &&
         value < machineVariables.HEATING_ZONES[0].limits[1]
       ) {
-        // update setpoint accordingly
+        // update setpoint accordingly then close inputs, make sure warning is not displayed
         switch (name) {
           case "top plate":
             this.$store.state.machine.tempControllers[0].setpoint = value;
+            this.display = !this.display;
+            this.warning = false;
             return;
           case "bottom plate":
             this.$store.state.machine.tempControllers[1].setpoint = value;
+            this.display = !this.display;
+            this.warning = false;
             return;
         }
       } else {
         // display warning
-
-        // reset input field
-        this.value = "";
+        this.warning = !this.warning;
         return;
       }
+    },
+    displayInput() {
+      console.log(this.display);
+      this.display = !this.display;
+      return;
     },
   },
 };

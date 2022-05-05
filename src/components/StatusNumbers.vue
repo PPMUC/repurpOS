@@ -16,7 +16,7 @@
       <!-- TOP AND BOTTOM PLATE TEMPERATURES -->
       <div class="uk-flex uk-margin-remove uk-padding-remove uk-width-1-1">
         <NumDisplay
-          class="uk-width-1-2"
+          class="uk-width-1-1"
           v-for="tcon in temperatureControllers"
           :key="tcon.name"
           :num="tcon.current"
@@ -40,11 +40,17 @@
           class="uk-width-1-2"
         >
           <div>
-            <input type="number" v-model="value" :placeholder="tcon.setpoint" />
+            <input
+              class="uk-input"
+              id="form-stacked-text"
+              type="text"
+              v-model="value"
+              :placeholder="tcon.setpoint"
+            />
           </div>
           <button
             @click="override(tcon.name, value)"
-            class="uk-button uk-button-small uk-width-1-1 button-padding"
+            class="uk-button uk-button-default uk-width-1-1 overrideButton"
           >
             <span class="uk-text">Override</span>
           </button>
@@ -82,7 +88,7 @@ export default {
     return {
       OPTIONAL_SENSOR_INFO: machineVariables.OPTIONAL_SENSOR_INFO,
       display: false,
-      warning: false
+      warning: false,
     };
   },
   computed: {
@@ -99,16 +105,19 @@ export default {
       console.log(`override setpoint of ${name}`);
       // if input is within limits
       if (
-        value > machineVariables.HEATING_ZONES[0].limits[0] &&
-        value < machineVariables.HEATING_ZONES[0].limits[1]
+        value >= machineVariables.HEATING_ZONES[0].limits[0] &&
+        value <= machineVariables.HEATING_ZONES[0].limits[1]
       ) {
-        // update setpoint accordingly then close inputs, make sure warning is not displayed
         switch (name) {
           case "top plate":
+            // update setpoint
             this.$store.state.machine.tempControllers[0].setpoint = value;
+            // close input fields
             this.display = !this.display;
+            // make sure warning is not displayed
             this.warning = false;
             return;
+
           case "bottom plate":
             this.$store.state.machine.tempControllers[1].setpoint = value;
             this.display = !this.display;
@@ -121,8 +130,8 @@ export default {
         return;
       }
     },
+
     displayInput() {
-      console.log(this.display);
       this.display = !this.display;
       return;
     },
@@ -132,4 +141,7 @@ export default {
 
 <style lang="scss" scoped>
 @use "../assets/css/variables";
+.overrideButton {
+  padding-left: 15%;
+}
 </style>

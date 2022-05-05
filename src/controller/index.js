@@ -14,7 +14,7 @@ export default class controller {
     this.lastUpdateTime = null;
   }
   //Run safety checks
-  //Return true if switches are closed
+  //Return 0 if switches are closed
   isLimitSwitchesClosed() {
     for (const [key, value] of Object.entries(
       this.app.$store.state.machine.limitSwitches
@@ -24,15 +24,21 @@ export default class controller {
         return key;
       }
     }
-    return 1;
+    return 0;
   }
 
   //Attempt to begin sheet press
   //Return 1 if succescesful
   attemptToStartMachine() {
     console.log(this.app.$store.state);
-    if (!this.isLimitSwitchesClosed()) {
-      Util.showError("Limit switch open. Failed to start");
+    let key = this.isLimitSwitchesClosed();
+    console.log(key);
+    console.log(machine_info.LIM_SWITCH_INFO);
+    if (key != 0) {
+      Util.showError(
+        machine_info.LIM_SWITCH_INFO[key].description +
+          " limit switch open. Failed to start"
+      );
       return 0;
     }
 
@@ -103,8 +109,9 @@ export default class controller {
       //We are at an inflection point
       if (lowProfile.required) {
         console.log("We hit a required point");
+        console.log(profile);
         // check if requirements of profile are met
-        allowedToContinue = this.checkHitProfile(lowProfile);
+        allowedToContinue = this.checkHitProfile(this.app.$store);
       }
     }
     //Increment counters if necessary
@@ -121,7 +128,12 @@ export default class controller {
    * @returns {Boolean} True if all requirements are satsified within tolerances
    */
   checkHitProfile(profile) {
-    for (let i = 0; i < profile.state.tempControllers.length; i++) {
+    for (
+      let i = 0;
+      i < profile.getters["machine/tempControllerCurrent"].length;
+      i++
+    ) {
+      console.log(profile.getters["machine/tempControllerCurrent"]);
       if (
         profile.getters["machine/tempControllerCurrent"][i] >
           profile.getters["machine/tempControllerSetpoints"][i] +
@@ -129,9 +141,8 @@ export default class controller {
         profile.getters["machine/tempControllerCurrent"][i] <
           profile.getters["machine/tempControllerSetpoints"][i] -
             machine_info.TEMP_TOLERANCE
-      ) {
+      )
         return false;
-      }
     }
     return true;
   }

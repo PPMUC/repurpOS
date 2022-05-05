@@ -71,8 +71,28 @@ export default class machine_comms {
         "1";
     }
     console.log(this.app.$store.getters["machine/limitSwitches"]);
+    console.log("limit changed");
   }
 
+  receivePIDs(data) {
+    let messageArray = data.split(/\s+/);
+    messageArray = messageArray.filter((item) => item);
+
+    for (let tempController of this.app.$store .getters["machine/temperatureControllers"]) {
+      // tempController.current = Number(messageArray[])
+    }
+
+  }
+
+  receiveTemp(data) {
+
+  }
+
+  receivePressure(data) {
+
+  }
+
+  //Runs anytime any data is received on the serial port
   recieveData(data) {
     console.log(this.app.$store);
 
@@ -83,6 +103,18 @@ export default class machine_comms {
     switch (cmdChar) {
       case "L":
         this.recieveLimit(data);
+        break;
+
+      case "C":
+        this.receivePIDs(data);
+        break;
+
+      case "T":
+        this.receiveTemp(data);
+        break;
+
+      case "P":
+        this.receivePressure(data);
         break;
     }
     this._emitDataReady();

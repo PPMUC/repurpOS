@@ -13,7 +13,8 @@ export const REQUIRED_SENSOR_INFO = {
   pressure: {
     name: "plate pressure",
     units: "N",
-    limits: [0, 1000]
+    limits: [0, 1000],
+    index: 0
   }
 };
 
@@ -26,12 +27,14 @@ export const OPTIONAL_SENSOR_INFO = {
   hood: {
     name: "hood temperature",
     units: "&deg;C",
-    limits: [0, 1000]
+    limits: [0, 1000],
+    index: 0
   },
   frame: {
     name: "frame temperature",
     units: "&deg;C",
-    limits: [0, 1000]
+    limits: [0, 1000],
+    index: 1
   }
 };
 

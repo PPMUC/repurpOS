@@ -9,12 +9,12 @@ export default class machine_comms {
     this.app = app;
     this._events = {
       dataReady: [],
-      error: []
+      error: [],
     };
     //Setup com port
     this.port = new SerialPort(machine_info.COM_PORT, {
       baudRate: 115200,
-      autoOpen: false
+      autoOpen: false,
     });
     this.port.on("error", (err) => {
       console.log(err);
@@ -71,25 +71,48 @@ export default class machine_comms {
         "1";
     }
     console.log(this.app.$store.getters["machine/limitSwitches"]);
-    console.log("limit changed");
+    console.log("limits changed");
   }
 
   receivePIDs(data) {
+    // create message array without whitespace
     let messageArray = data.split(/\s+/);
     messageArray = messageArray.filter((item) => item);
 
-    for (let tempController of this.app.$store .getters["machine/temperatureControllers"]) {
-      // tempController.current = Number(messageArray[])
-    }
-
+    // TO BE COMPLETED
   }
 
   receiveTemp(data) {
+    // create message array without whitespace
+    let messageArray = data.split(/\s+/);
+    messageArray = messageArray.filter((item) => item);
 
+    // set current temperatures using index property in required sensors
+    for (let tempSensor of this.app.$store.getters["machine/optionalSensors"]) {
+      tempSensor.current = Number(
+        messageArray[machine_info.OPTIONAL_SENSOR_INFO[tempSensor.name].index]
+      );
+    }
+    console.log(this.app.$store.getters["machine/optionalSensors"]);
+    console.log("temperatures received");
   }
 
   receivePressure(data) {
+    // create message array without whitespace
+    let messageArray = data.split(/\s+/);
+    messageArray = messageArray.filter((item) => item);
 
+    for (let pressureSensor of this.app.$store.getters[
+      "machine/requiredSensors"
+    ]) {
+      pressureSensor.current = Number(
+        messageArray[
+          machine_info.REQUIRED_SENSOR_INFO[pressureSensor.name].index
+        ]
+      );
+    }
+    console.log(this.app.$store.getters["machine/requiredSensors"]);
+    console.log("pressures received");
   }
 
   //Runs anytime any data is received on the serial port

@@ -43,13 +43,15 @@ const state = function () {
       name: nom
     });
   }
+
   return {
     isRunning: true,
     limitSwitches: limitSwitches,
     optionalSensors: optionalSensors,
     requiredSensors: requiredSensors,
     tempControllers: tempControllers,
-    logic: null
+    logic: null,
+    machineRunCounter: 0
   };
 };
 

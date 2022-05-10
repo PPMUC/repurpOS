@@ -10,7 +10,6 @@ export default class controller {
 
     this.mcuUpdateInterval = null;
     this.machineStartTime = null;
-    this.machineRunCounter = 0;
     this.lastUpdateTime = null;
   }
   //Run safety checks
@@ -44,7 +43,7 @@ export default class controller {
 
     //Set start time
     this.machineStartTime = Date.now();
-    this.machineRunCounter = 0;
+    this.app.$store.state.machineRunCounter = 0;
     this.lastUpdateTime = Date.now();
 
     this.mcuUpdateInterval = setInterval(
@@ -59,7 +58,7 @@ export default class controller {
    */
   sendMCUUpdate() {
     console.log("startin");
-    let runCountSeconds = this.machineRunCounter / 1000;
+    let runCountSeconds = this.app.$store.state.machineRunCounter / 1000;
 
     //Get relevant profile points
     let profile = this.app.$store.getters["profile/getCurrent"];
@@ -68,7 +67,17 @@ export default class controller {
       "time",
       runCountSeconds
     );
-    let highProfile = profile[index + 1];
+
+    let highProfile;
+    let isLastPoint = false;
+    // check if we are at the last point, otherwise high profile is the next point
+    if (lowProfile == profile[profile.length - 1]) {
+      console.log("Hit last point in profile");
+      highProfile = profile[index];
+      isLastPoint = true;
+    } else {
+      highProfile = profile[index + 1];
+    }
 
     //Linearly extrapolate temperatures
     for (const [key] of Object.entries(machine_info.HEATING_ZONES)) {
@@ -92,6 +101,8 @@ export default class controller {
         highProfile.miscRequiredSensor[key],
         runCountSeconds
       );
+      // console.log(lowProfile);
+      // console.log(highProfile);
       this.app.$store.commit("machine/setRequiredSensorSetpoint", [
         key,
         Math.round(setpoint),
@@ -116,10 +127,16 @@ export default class controller {
     }
     //Increment counters if necessary
     if (allowedToContinue) {
-      this.machineRunCounter += Date.now() - this.lastUpdateTime;
+      this.app.$store.state.machineRunCounter +=
+        Date.now() - this.lastUpdateTime;
       this.lastUpdateTime = Date.now();
     }
-    console.log(this.machineRunCounter);
+    console.log(this.app.$store.state.machineRunCounter);
+
+    // Stop machine if the last profile point has been reached
+    if (isLastPoint) {
+      this.$store.dispatch("machine/attemptToStopMachine");
+    }
   }
 
   /**
@@ -170,6 +187,7 @@ export default class controller {
     return 1;
   }
 
+  // DON'T USE THIS FUNCTION (used in vue ux)
   attemptToStopMachine() {
     console.log("Attempting to turn off");
     //Stop updating

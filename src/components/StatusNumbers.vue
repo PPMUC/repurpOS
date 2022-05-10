@@ -56,7 +56,9 @@
           </button>
         </div>
       </div>
-      <span v-if="warning">Setpoint must be between 0 and 400 degrees</span>
+      <span v-if="warning"
+        >Setpoint must be between {{ HEATING_ZONES[0].limits[0] }} and
+        {{ HEATING_ZONES[0].limits[1] }} degrees</span>
       <!-- HOOD AND FRAME TEMPERATURES -->
       <div class="uk-flex uk-padding-remove uk-width-1-1" uk-grid>
         <div v-for="num in smallSensors" :key="num.name" class="uk-width-1-2">
@@ -89,6 +91,7 @@ export default {
       OPTIONAL_SENSOR_INFO: machineVariables.OPTIONAL_SENSOR_INFO,
       display: false,
       warning: false,
+      HEATING_ZONES: machineVariables.HEATING_ZONES,
     };
   },
   computed: {

@@ -26,7 +26,7 @@ export const showError = (err) => {
     message: err,
     status: "danger",
     pos: "top-right",
-    timeout: 5000
+    timeout: 5000,
   });
 };
 
@@ -75,8 +75,9 @@ export const linearExtrapolateData = (
   newX
 ) => {
   let linearM = (highProfileY - lowProfileY) / (highProfileX - lowProfileX);
-  let linearC = highProfileY / (linearM * highProfileX);
+  let linearC = highProfileY - linearM * highProfileX;
   linearC = isFinite(linearC) ? linearC : 0;
   linearM = isFinite(linearM) ? linearM : 0;
+
   return linearM * newX + linearC;
 };

@@ -79,7 +79,7 @@ export default class machine_comms {
     let messageArray = data.split(/\s+/);
     messageArray = messageArray.filter((item) => item);
 
-    // TO BE COMPLETED
+    // TO BE COMPLETED =====================================================
   }
 
   receiveTemp(data) {
@@ -102,6 +102,7 @@ export default class machine_comms {
     let messageArray = data.split(/\s+/);
     messageArray = messageArray.filter((item) => item);
 
+    // set current pressures using index property in optional sensors
     for (let pressureSensor of this.app.$store.getters[
       "machine/requiredSensors"
     ]) {

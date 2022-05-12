@@ -43,7 +43,7 @@ export default class controller {
 
     //Set start time
     this.machineStartTime = Date.now();
-    this.app.$store.state.machineRunCounter = 0;
+    this.app.$store.state.machine.machineRunCounter = 0;
     this.lastUpdateTime = Date.now();
 
     this.mcuUpdateInterval = setInterval(
@@ -58,7 +58,8 @@ export default class controller {
    */
   sendMCUUpdate() {
     console.log("startin");
-    let runCountSeconds = this.app.$store.state.machineRunCounter / 1000;
+    let runCountSeconds =
+      this.app.$store.state.machine.machineRunCounter / 1000;
 
     //Get relevant profile points
     let profile = this.app.$store.getters["profile/getCurrent"];
@@ -127,15 +128,15 @@ export default class controller {
     }
     //Increment counters if necessary
     if (allowedToContinue) {
-      this.app.$store.state.machineRunCounter +=
+      this.app.$store.state.machine.machineRunCounter +=
         Date.now() - this.lastUpdateTime;
       this.lastUpdateTime = Date.now();
     }
-    console.log(this.app.$store.state.machineRunCounter);
+    console.log(this.app.$store.state.machine.machineRunCounter);
 
     // Stop machine if the last profile point has been reached
     if (isLastPoint) {
-      this.$store.dispatch("machine/attemptToStopMachine");
+      this.app.$store.dispatch("machine/attemptToStopMachine");
     }
   }
 

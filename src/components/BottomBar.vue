@@ -15,7 +15,7 @@
     </div>
     <div id="rightBottomBar" class="uk-width-1-2 uk-text-right">
       <router-link id="status-bar-item" to="/">
-        <span v-text="vitalInfo[checkInfo]"></span>
+        <span v-text="update[checkUpdate]"></span>
       </router-link>
 
       <router-link id="status-bar-item" to="/shortcuts">
@@ -43,8 +43,8 @@ export default {
         return "off";
       }
     },
-    // UPDATE THIS WHEN PPM CLOUD IS IMPLEMENTED?
-    checkInfo() {
+    // UPDATE THIS WHEN PPM CLOUD IS IMPLEMENTED
+    checkUpdate() {
       return "p";
     }
   },
@@ -56,9 +56,10 @@ export default {
         on: "Sheet Press Running!",
         off: "Sheet Press Stopped.",
       },
-      vitalInfo: {
-        p: "Placeholder for Vital Info",
-        update: "Updating Software ..."
+      update: {
+        p: "Update Status Placeholder",
+        update: "Installing Update ...",
+        download: "Downloading Update ..."
       },
     };
   },

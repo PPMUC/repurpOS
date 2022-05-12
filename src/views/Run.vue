@@ -4,6 +4,7 @@
       <StatusNumbers class="uk-width-1-3"></StatusNumbers>
       <div class="uk-width-expand uk-padding-left" id="chart">
         <ApexChart
+          ref="chart"
           type="line"
           height="400"
           :options="chartOptions"
@@ -21,6 +22,7 @@
 // @ is an alias to /src
 import ProfileChart from "@/components/ProfileChart";
 import StatusNumbers from "@/components/StatusNumbers";
+import Vue from "vue";
 import ApexChart from "vue3-apexcharts";
 import { mapGetters } from "vuex";
 
@@ -37,6 +39,14 @@ export default {
       chartOptions: {
         chart: {
           id: "vuechart",
+        },
+        annotations: {
+          xaxis: [
+            {
+              x: this.$store.state.machine.machineRunCounter / 1000,
+              borderColor: "#775DD0",
+            },
+          ],
         },
         stroke: {
           width: 1,
@@ -58,9 +68,32 @@ export default {
     },
   },
   methods: {
-    addProgressLine() {
-      // this.app.$store.state.machineRunCounter
-    }
+    clearAnnotations() {
+      this.$clearAnnotations();
+    },
+    addXaxisAnnotation() {
+      this.$addXaxisAnnotation();
+    },
+    updateChart() {
+      if (this.$store.state.machine.isRunning === true) {
+        if (this.$refs.chart != null) {
+          this.$refs.chart.clearAnnotations();
+          this.$refs.chart.addXaxisAnnotation({
+            x: this.$store.state.machine.machineRunCounter / 1000,
+            borderColor: "#775DD0",
+          });
+          // this.chartOptions.annotations.xaxis[0].x =
+          //   this.$store.state.machine.machineRunCounter / 1000;
+          // this.$forceUpdate();
+          return;
+        }
+      } else {
+        return;
+      }
+    },
+  },
+  mounted: function () {
+    window.setInterval(this.updateChart, 500);
   },
 };
 </script>

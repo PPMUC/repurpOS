@@ -20,6 +20,7 @@
     "core-js": "^3.6.5",
     "serialport": "^9.2.4",
     "uikit": "^3.7.2",
+    "update-electron-app": "^2.0.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vue3-apexcharts": "^1.4.1",
@@ -44,5 +45,9 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-electron-builder": "^2.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PPMUC/repurpOS"
   }
 }

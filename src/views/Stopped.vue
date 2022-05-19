@@ -3,7 +3,14 @@
     <div class="uk-flex uk-margin-remove" uk-grid>
       <StatusNumbers class="uk-width-1-3"></StatusNumbers>
       <div class="uk-width-expand uk-padding-left" id="chart">
-        
+        <ApexChart
+          ref="chart"
+          type="line"
+          height="400"
+          :options="chartOptions"
+          :series="chartSeries"
+        >
+        </ApexChart>
       </div>
     </div>
   </div>
@@ -17,31 +24,51 @@
   // @ is an alias to /src
   import StatusNumbers from "@/components/StatusNumbers"
   //import { Splitpanes, Pane } from 'splitpanes'
+  import ProfileChart from "@/components/ProfileChart";
+  import Vue from "vue";
+  import ApexChart from "vue3-apexcharts";
+  import { mapGetters } from "vuex";
 
   export default {
     name: "Stopped",
     components: {
-      StatusNumbers
+      StatusNumbers,
+      ApexChart
       //Splitpanes,
       //Pane
     },
-    data: function () {
-      return {
-        chartOptions: {
-          chart: {
-            id: "vuechart-example"
-          },
-          xaxis: {
-            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
-          }
+  data: function () {
+    return {
+      chartOptions: {
+        chart: {
+          id: "vuechart",
         },
-        series: [
-          {
-            name: "series-1",
-            data: [30, 40, 35, 50, 49, 60, 70, 91]
-          }
-        ],
-      };
-    }
+        annotations: {
+          xaxis: [
+            {
+              x: 0,
+              borderColor: "#775DD0",
+            },
+          ],
+        },
+        stroke: {
+          width: 1,
+          dashArray: [0, 3, 5],
+        },
+        markers: {
+          size: 3,
+        },
+      },
+    };
+  },
+  computed: {
+    ...mapGetters({
+      currentSeries: "profile/getChartSeriesCurrent",
+      actualSeries: "profile/getChartSeriesActual",
+    }),
+    chartSeries() {
+      return this.currentSeries.concat(this.actualSeries);
+    },
+  },
   };
 </script>

@@ -26,7 +26,7 @@ export default class machine_comms {
         Util.showError(err);
       }
       this.port.pipe(new Readline());
-      this.port.on("data", (data) => this.recieveData(data));
+      this.port.on("data", (data) => this.receiveData(data));
     });
   }
 
@@ -58,7 +58,7 @@ export default class machine_comms {
   }
 
   //Parse limit switches
-  recieveLimit(data) {
+  receiveLimit(data) {
     //Create array of elements sans whitespace
     let messageArray = data.split(/\s+/);
     messageArray = messageArray.filter((item) => item);
@@ -94,7 +94,7 @@ export default class machine_comms {
       );
     }
     console.log(this.app.$store.getters["machine/optionalSensors"]);
-    console.log("temperatures received");
+    console.log("temperatures changed");
   }
 
   receivePressure(data) {
@@ -113,11 +113,11 @@ export default class machine_comms {
       );
     }
     console.log(this.app.$store.getters["machine/requiredSensors"]);
-    console.log("pressures received");
+    console.log("pressures changed");
   }
 
   //Runs anytime any data is received on the serial port
-  recieveData(data) {
+  receiveData(data) {
     console.log(this.app.$store);
 
     data = data.toString();
@@ -126,7 +126,7 @@ export default class machine_comms {
     data = data.substr(1);
     switch (cmdChar) {
       case "L":
-        this.recieveLimit(data);
+        this.receiveLimit(data);
         break;
 
       case "C":

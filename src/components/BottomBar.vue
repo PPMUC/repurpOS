@@ -15,7 +15,7 @@
     </div>
     <div id="rightBottomBar" class="uk-width-1-2 uk-text-right">
       <router-link id="status-bar-item" to="/">
-        <span v-text="update[checkUpdate]"></span>
+        <span v-text="checkUpdate"></span>
       </router-link>
 
       <router-link id="status-bar-item" to="/shortcuts">
@@ -43,9 +43,9 @@ export default {
         return "off";
       }
     },
-    // UPDATE THIS WHEN PPM CLOUD IS IMPLEMENTED
     checkUpdate() {
-      return "p";
+      // return `Plate Distance: ${this.$store.state.machine.plateDistance} mm`;
+      return "Plate Distance Placeholder"; // placeholder until distance info is implemented
     }
   },
 
@@ -55,12 +55,7 @@ export default {
         // h: 'Sheet Press Heating ...',
         on: "Sheet Press Running!",
         off: "Sheet Press Stopped.",
-      },
-      update: {
-        p: "Update Status Placeholder",
-        update: "Installing Update ...",
-        download: "Downloading Update ..."
-      },
+      }
     };
   },
 };

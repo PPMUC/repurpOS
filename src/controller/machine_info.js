@@ -26,13 +26,13 @@ export const MCU_UPDATE_INTERVAL = 1000;
 export const OPTIONAL_SENSOR_INFO = {
   hood: {
     name: "hood temperature",
-    units: "&deg;C",
+    units: "C",
     limits: [0, 1000],
     index: 0
   },
   frame: {
     name: "frame temperature",
-    units: "&deg;C",
+    units: "C",
     limits: [0, 1000],
     index: 1
   }

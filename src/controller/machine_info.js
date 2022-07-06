@@ -18,7 +18,7 @@ export const REQUIRED_SENSOR_INFO = {
   }
 };
 
-export const COM_PORT = "COM13";
+export const COM_PORT = "COM4";
 
 // The interval in ms to update the arduino with new info
 export const MCU_UPDATE_INTERVAL = 1000;

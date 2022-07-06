@@ -61,6 +61,9 @@ export default class controller {
     let runCountSeconds =
       this.app.$store.state.machine.machineRunCounter / 1000;
 
+    // get limits
+    this._comms._writeToMachine("l");
+
     //Get relevant profile points
     let profile = this.app.$store.getters["profile/getCurrent"];
     let [lowProfile, index] = Util.getClosestObjectBelow(
@@ -167,7 +170,7 @@ export default class controller {
 
   //Runs when theres new data from machine
   dataReady() {
-    this.checkSafety();
+    // this.checkSafety();
   }
 
   checkSafety() {

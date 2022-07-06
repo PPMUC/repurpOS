@@ -1,8 +1,11 @@
 import * as machine_info from "./machine_info";
 const electron = window.require("electron");
-const Readline = require("@serialport/parser-readline");
 const SerialPort = window.require("serialport");
+const Readline = require("@serialport/parser-readline");
 import * as Util from "@/classes/Util";
+import { parse } from "@vue/compiler-dom";
+
+var port, parser;
 
 export default class machine_comms {
   constructor(app) {
@@ -12,21 +15,22 @@ export default class machine_comms {
       error: [],
     };
     //Setup com port
-    this.port = new SerialPort(machine_info.COM_PORT, {
+    port = new SerialPort(machine_info.COM_PORT, {
       baudRate: 115200,
       autoOpen: false,
     });
-    this.port.on("error", (err) => {
+    port.on("error", (err) => {
       console.log(err);
       Util.showError(err);
     });
     //setup
-    this.port.open((err) => {
+    port.open((err) => {
       if (err) {
         Util.showError(err);
       }
-      this.port.pipe(new Readline());
-      this.port.on("data", (data) => this.receiveData(data));
+      parser = new Readline();
+      port.pipe(parser);
+      parser.on("data", (data) => this.receiveData(data));
     });
   }
 
@@ -52,9 +56,8 @@ export default class machine_comms {
   }
 
   _writeToMachine(message) {
-    //let f = (message) => this.port.write(message + "\n");
-    //f(message);
-    this.port.write(message + "\n");
+    console.log("sending: " + message);
+    port.write(message + "\n");
   }
 
   //Parse limit switches
@@ -121,7 +124,7 @@ export default class machine_comms {
     console.log(this.app.$store);
 
     data = data.toString();
-    console.log(data);
+    console.log("received: " + data);
     let cmdChar = data.substr(0, 1);
     data = data.substr(1);
     switch (cmdChar) {

@@ -19,4 +19,4 @@ let vm = createApp(App).use(store).use(router).mount("#app");
 let controller = new logic(vm);
 vm.$store.commit("machine/setLogic", controller);
 
-console.log(vm.$store.state.profile.current);
+// console.log(vm.$store.state.profile.current);

@@ -41,11 +41,11 @@ export default class machine_comms {
     // get states and make string
     let sendString = "a";
     let setpoints = this.app.$store.getters["machine/tempControllerSetpoints"];
-    console.log(setpoints);
+    // console.log(setpoints);
     for (let setpoint of setpoints) {
       sendString += " " + setpoint;
     }
-    console.log(sendString);
+    // console.log(sendString);
     this._writeToMachine(sendString);
   }
   setAllTemperaturesOff() {
@@ -73,8 +73,8 @@ export default class machine_comms {
         messageArray[machine_info.LIM_SWITCH_INFO[limSwitch.name].index] ===
         "1";
     }
-    console.log(this.app.$store.getters["machine/limitSwitches"]);
-    console.log("limits changed");
+    // console.log(this.app.$store.getters["machine/limitSwitches"]);
+    // console.log("limits changed");
   }
 
   receivePIDs(data) {
@@ -121,8 +121,7 @@ export default class machine_comms {
 
   //Runs anytime any data is received on the serial port
   receiveData(data) {
-    console.log(this.app.$store);
-
+    // console.log(this.app.$store);
     data = data.toString();
     console.log("received: " + data);
     let cmdChar = data.substr(0, 1);

@@ -47,8 +47,8 @@ const getters = {
     if (state[dataName].length === 0) {
       return out;
     }
-    console.log(state[dataName].length);
-    console.log(state[dataName]);
+    // console.log(state[dataName].length);
+    // console.log(state[dataName]);
     //add each series to out
     //temperatures
     for (let i = 0; i < state[dataName][0].temp.length; i++) {
@@ -97,7 +97,7 @@ const getters = {
       }
     }
 
-    console.log(out);
+    // console.log(out);
     return out;
   }
 };

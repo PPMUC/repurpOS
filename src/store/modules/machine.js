@@ -113,8 +113,8 @@ const mutations = {
     state.tempControllers[controller].setpoint = setpoint;
   },
   setRequiredSensorSetpoint(state, [controller, setpoint]) {
-    console.log(controller);
-    console.log(state.requiredSensors);
+    // console.log(controller);
+    // console.log(state.requiredSensors);
     state.requiredSensors[controller].setpoint = setpoint;
   }
 };

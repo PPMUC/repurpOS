@@ -29,10 +29,10 @@ export default class controller {
   //Attempt to begin sheet press
   //Return 1 if succescesful
   attemptToStartMachine() {
-    console.log(this.app.$store.state);
+    // console.log(this.app.$store.state);
     let key = this.isLimitSwitchesClosed();
-    console.log(key);
-    console.log(machine_info.LIM_SWITCH_INFO);
+    // console.log(key);
+    // console.log(machine_info.LIM_SWITCH_INFO);
     if (key != 0) {
       Util.showError(
         machine_info.LIM_SWITCH_INFO[key].description +
@@ -56,8 +56,8 @@ export default class controller {
   /**
    * Runs every loop to update MCU of temperature values and other
    */
-  sendMCUUpdate() {
-    console.log("startin");
+  sendMCUUpdate() {  
+    // console.log("startin");
     let runCountSeconds =
       this.app.$store.state.machine.machineRunCounter / 1000;
 
@@ -123,8 +123,8 @@ export default class controller {
     ) {
       //We are at an inflection point
       if (lowProfile.required) {
-        console.log("We hit a required point");
-        console.log(profile);
+        // console.log("We hit a required point");
+        // console.log(profile);
         // check if requirements of profile are met
         allowedToContinue = this.checkHitProfile(this.app.$store);
       }
@@ -154,7 +154,7 @@ export default class controller {
       i < profile.getters["machine/tempControllerCurrent"].length;
       i++
     ) {
-      console.log(profile.getters["machine/tempControllerCurrent"]);
+      // console.log(profile.getters["machine/tempControllerCurrent"]);
       if (
         profile.getters["machine/tempControllerCurrent"][i] >
           profile.getters["machine/tempControllerSetpoints"][i] +
@@ -196,7 +196,7 @@ export default class controller {
     console.log("Attempting to turn off");
     //Stop updating
     clearInterval(this.mcuUpdateInterval);
-    console.log(this._comms);
+    // console.log(this._comms);
     this._comms.setAllTemperaturesOff();
     return 1;
   }

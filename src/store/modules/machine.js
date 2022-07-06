@@ -45,7 +45,7 @@ const state = function () {
   }
 
   return {
-    isRunning: true,
+    isRunning: false,
     limitSwitches: limitSwitches,
     optionalSensors: optionalSensors,
     requiredSensors: requiredSensors,

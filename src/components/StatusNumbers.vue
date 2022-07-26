@@ -42,7 +42,7 @@
           <div>
             <input
               class="uk-input"
-              id="tcon.name"
+              id="form-stacked-text"
               type="text"
               v-model="value"
               :placeholder="tcon.setpoint"
@@ -54,22 +54,11 @@
           >
             <span class="uk-text">Override</span>
           </button>
-          <div>
-            <vue-touch-keyboard
-              :options="options"
-              v-if="display"
-              :layout="layout"
-              :cancel="null"
-              :accept="null"
-              :input="tcon.name"
-            />
-          </div>
         </div>
-        <span v-if="warning"
-          >Setpoint must be between {{ HEATING_ZONES[0].limits[0] }} and
-          {{ HEATING_ZONES[0].limits[1] }} degrees</span
-        >
       </div>
+      <span v-if="warning"
+        >Setpoint must be between {{ HEATING_ZONES[0].limits[0] }} and
+        {{ HEATING_ZONES[0].limits[1] }} degrees</span>
       <!-- HOOD AND FRAME TEMPERATURES -->
       <div class="uk-flex uk-padding-remove uk-width-1-1" uk-grid>
         <div v-for="num in smallSensors" :key="num.name" class="uk-width-1-2">
@@ -91,13 +80,11 @@
 import NumDisplay from "@/components/NumDisplay";
 import * as machineVariables from "@/controller/machine_info";
 import { mapGetters } from "vuex";
-import VueTouchKeyboard from "@/assets/vue-touch-keyboard";
 
 export default {
   name: "StatusNumbers",
   components: {
     NumDisplay,
-    "vue-touch-keyboard": VueTouchKeyboard.component
   },
   data: function () {
     return {
@@ -105,12 +92,6 @@ export default {
       display: false,
       warning: false,
       HEATING_ZONES: machineVariables.HEATING_ZONES,
-      layout: "numeric",
-      input: null,
-      options: {
-        useKbEvents: false,
-        preventClickEvent: false,
-      },
     };
   },
   computed: {
@@ -120,7 +101,7 @@ export default {
     }),
     smallSensors() {
       return this.optionalSensors;
-    }
+    },
   },
   methods: {
     override(name, value) {

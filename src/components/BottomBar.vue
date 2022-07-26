@@ -44,7 +44,7 @@ export default {
       }
     },
     checkUpdate() {
-      // return `Plate Distance: ${this.$store.state.machine.bottomBarVariable}`;
+      // return `Plate Distance: ${this.$store.state.machine.plateDistance} mm`;
       return "Plate Distance Placeholder"; // placeholder until distance info is implemented
     }
   },

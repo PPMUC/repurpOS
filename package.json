@@ -18,13 +18,11 @@
     "@electron/remote": "^2.0.1",
     "apexcharts": "^3.28.1",
     "core-js": "^3.6.5",
-    "eslint-plugin-html": "^6.2.0",
     "serialport": "^9.2.4",
     "uikit": "^3.7.2",
     "update-electron-app": "^2.0.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-    "vue-touch-keyboard": "^0.3.2",
     "vue3-apexcharts": "^1.4.1",
     "vuex": "^4.0.0-0"
   },

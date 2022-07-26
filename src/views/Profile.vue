@@ -223,7 +223,7 @@
         this.markerData = this.proposedProfile[this.selectedMarker];
       },
       increaseSelection: function () {
-        // this.$s.chart.toggleDataPointSelection(this.selectedSeries, this.selectedMarker);
+        // this.$refs.chart.toggleDataPointSelection(this.selectedSeries, this.selectedMarker);
         this.$refs.chart.toggleDataPointSelection(this.selectedSeries, ++this.selectedMarker)
         // this.toggleMarkersAtIndex(this.selectedMarker);
         // this.toggleMarkersAtIndex(++this.selectedMarker);

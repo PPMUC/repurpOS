@@ -26,5 +26,6 @@ COPY . /src
 
 RUN npm install
 
+RUN npm run electron:build
 
-ENTRYPOINT ["/bin/bash", "-c", "npm run electron:build"]
+ENTRYPOINT ["/bin/bash"]

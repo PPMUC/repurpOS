@@ -1,4 +1,7 @@
 on:
+  push:
+    branches:
+    - main
   release:
     types: [created]
 name: Handle Release
@@ -11,12 +14,12 @@ jobs:
       - name: Build Docker Image
         uses: docker/build-push-action@v3
         with:
-          repository: repurpOS
+          repository: repurpos
           tags: latest
       - uses: shrink/actions-docker-extract@v1
         id: extract
         with:
-          image: repurpOS
+          image: repurpos
           path: /dist_electron/.
       - name: Upload Dist
         uses: actions/upload-artifact@v3

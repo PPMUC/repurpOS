@@ -1,0 +1,25 @@
+on:
+  release:
+    types: [created]
+name: Handle Release
+jobs:
+  generate:
+    name: Create release-artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Docker Image
+        uses: docker/build-push-action@v1
+        with:
+          repository: repurpOS
+          tags: latest
+      - uses: shrink/actions-docker-extract@v1
+        id: extract
+        with:
+          image: repurpOS
+          path: /dist_electron/.
+      - name: Upload Dist
+        uses: actions/upload-artifact@v3
+        with:
+          path: ${{ steps.extract.outputs.destination }}
+          name: dist

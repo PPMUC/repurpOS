@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build Docker Image
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v3
         with:
           repository: repurpOS
           tags: latest

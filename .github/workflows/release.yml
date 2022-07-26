@@ -8,7 +8,7 @@ name: Handle Release
 jobs:
   generate:
     name: Create release-artifacts
-    runs-on: ubuntu-18.04
+    runs-on: windows-latest
     steps:
       -
         name: Set up Docker Buildx

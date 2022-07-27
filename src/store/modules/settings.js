@@ -8,9 +8,5 @@ export default createStore({
   state,
   mutations: {},
   actions: {},
-  modules: {
-    machine,
-    profile,
-    shortcuts
-  }
+  modules: {}
 });

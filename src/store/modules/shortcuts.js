@@ -4,21 +4,26 @@ import Shortcut from "@/classes/Shortcut";
 // initial state
 // shape: [{ id, quantity }]
 const state = function () {
+  let short = Array.from(new Array(12), () => new Shortcut());
   return {
-    shortcuts: [new Shortcut()]
+    shortcuts: short
   };
 };
 
 // getters
-const getters = {};
+const getters = {
+  getShortcuts(state) {
+    return state.shortcuts;
+  }
+};
 
 // actions
 const actions = {};
 
 // mutations
 const mutations = {
-  addTimePoint(state, newShort) {
-    state.shortcuts.push(newShort);
+  modifyShortcut(state, data) {
+    state.shortcuts[data.index] = data.shortcut;
   }
 };
 

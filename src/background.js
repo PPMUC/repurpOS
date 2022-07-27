@@ -1,10 +1,11 @@
 "use strict";
 
 require("update-electron-app")();
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, ipcMain } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const SerialPort = require("serialport");
+const child_process = require("child_process");
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 app.allowRendererProcessReuse = false;
@@ -84,3 +85,8 @@ if (isDevelopment) {
     });
   }
 }
+
+ipcMain.on("run-shell", (event, ...args) => {
+  console.log(...args);
+  child_process.spawn(...args, { shell: true });
+});

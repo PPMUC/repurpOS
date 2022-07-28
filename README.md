@@ -20,33 +20,34 @@ note: you need to install node js to have npm on your computer
 ### Plans
 
 The idea for this system is that one codebase is used on all machines.
-Machine specific configs are achieved through the following:
-
-- Settings for GUI are in controller/GUI.js
-- Some settings for machine are in controller/machine_info.js
-- Others are in controller/index.js
-- Settings for machine comms are in controller/machine_comms.js
-
-These files come from the platform configuration repository
 
 # ROADMAP
 
 - ~~Obeying limits set in machine_info.js~~
 - ~~Linear Extrapolation~~
+- ~~Stopping at required points in profile~~
+- ~~Sending temperature data~~
+- ~~Shortcuts menu - user editable~~
+- ~~Settings menu~~
+- ~~Manual overrides~~
+- ~~Loading screen/start menu~~
+- ~~Saving and loading profiles~~
+  \
+   &nbsp;
+  \
+   &nbsp;
 
-- Stopping at required points in profile
-- Sending temperature data
-- Saving and loading profiles
-- Shortcuts menu - user editable
+- PPM Cloud integration
+- Edit Profile description and delete
+
 - Bottom bar status - add info from platform file
-- Settings menu
+
 - Testing and implementing modularity to new machine
 - CI of multiple installers
 - Communication with arduino
 - Software update system
 - Arduino update system
-- Loading screen/start menu
-- Manual overrides
+
 - Switch serialport to IPC instead of electron remote
 - Limit switches visualisation
 
@@ -61,6 +62,16 @@ There are 3 main types of sensors/outputs.
   eg. a hand cranked bottle jack with a pressure sensor
 - Misc Optional Sensor
   This is a sensor that is only read and displayed, repurpOS has no control over it.
+
+Machine specific configs are achieved through the following:
+(All files are in the controller directory)
+
+- Settings for GUI are in controller/GUI.js
+- Some settings for machine are in controller/machine_info.js
+- Others are in controller/index.js
+- Settings for machine comms are in controller/machine_comms.js
+
+These files come from the platform configuration repository
 
 # OLD:
 

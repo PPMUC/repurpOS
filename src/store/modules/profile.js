@@ -135,6 +135,14 @@ const actions = {
     //No dupe
     state.proposed.push(newPoint);
     commit("sortProposedPoints");
+  },
+  //& Set
+  setProposedProfile({ dispatch, commit, state }, newPoints) {
+    commit("clearProposed");
+    console.log(newPoints);
+    for (let point of newPoints) {
+      commit("appendProposedProfile", point);
+    }
   }
 };
 

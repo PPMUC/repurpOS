@@ -103,4 +103,15 @@ export class CONTROL_STATE {
       { ...this.miscOptionalSensor }
     );
   }
+  setNull() {
+    for (let i = 0; i < this.temp.length; i++) {
+      this.temp[i] = null;
+    }
+    for (let key in this.miscRequiredSensor) {
+      this.miscRequiredSensor[key] = null;
+    }
+    for (let key in this.miscOptionalSensor) {
+      this.miscOptionalSensor[key] = null;
+    }
+  }
 }

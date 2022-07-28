@@ -45,7 +45,11 @@ export default class controller {
     this.machineStartTime = Date.now();
     this.app.$store.state.machine.machineRunCounter = 0;
     this.lastUpdateTime = Date.now();
-
+    /* eslint-disable no-empty */
+    //first clear so we dont duplicate
+    try {
+      clearInterval(this.mcuUpdateInterval);
+    } catch {}
     this.mcuUpdateInterval = setInterval(
       () => this.sendMCUUpdate(),
       machine_info.MCU_UPDATE_INTERVAL
@@ -56,7 +60,7 @@ export default class controller {
   /**
    * Runs every loop to update MCU of temperature values and other
    */
-  sendMCUUpdate() {  
+  sendMCUUpdate() {
     // console.log("startin");
     let runCountSeconds =
       this.app.$store.state.machine.machineRunCounter / 1000;
@@ -94,7 +98,7 @@ export default class controller {
       );
       this.app.$store.commit("machine/setSetpoint", [
         key,
-        Math.round(setpoint),
+        Math.round(setpoint)
       ]);
     }
     for (const [key] of Object.entries(machine_info.REQUIRED_SENSOR_INFO)) {
@@ -109,7 +113,7 @@ export default class controller {
       // console.log(highProfile);
       this.app.$store.commit("machine/setRequiredSensorSetpoint", [
         key,
-        Math.round(setpoint),
+        Math.round(setpoint)
       ]);
     }
     //Send it out
@@ -128,6 +132,10 @@ export default class controller {
         // check if requirements of profile are met
         allowedToContinue = this.checkHitProfile(this.app.$store);
       }
+    }
+    //Machine is paused. dont continue
+    if (this.app.$store.state.machine.isPaused) {
+      allowedToContinue = false;
     }
     //Increment counters if necessary
     if (allowedToContinue) {

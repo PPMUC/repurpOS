@@ -17,8 +17,8 @@
       <div class="uk-flex uk-margin-remove uk-padding-remove uk-width-1-1">
         <NumDisplay
           class="uk-width-1-1"
-          v-for="tcon in temperatureControllers"
-          :key="tcon.name"
+          v-for="(tcon, index) in temperatureControllers"
+          :key="index"
           :num="tcon.current"
           :unit="'&deg;C'"
           :name="tcon.name"
@@ -35,8 +35,8 @@
         uk-grid
       >
         <div
-          v-for="tcon in temperatureControllers"
-          :key="tcon.name"
+          v-for="(tcon, index) in temperatureControllers"
+          :key="index"
           class="uk-width-1-2"
         >
           <div>
@@ -49,7 +49,7 @@
             />
           </div>
           <button
-            @click="override(tcon.name, value)"
+            @click="override(index, value)"
             class="uk-button uk-button-default uk-width-1-1 overrideButton"
           >
             <span class="uk-text">Override</span>
@@ -58,7 +58,8 @@
       </div>
       <span v-if="warning"
         >Setpoint must be between {{ HEATING_ZONES[0].limits[0] }} and
-        {{ HEATING_ZONES[0].limits[1] }} degrees</span>
+        {{ HEATING_ZONES[0].limits[1] }} degrees</span
+      >
       <!-- HOOD AND FRAME TEMPERATURES -->
       <div class="uk-flex uk-padding-remove uk-width-1-1" uk-grid>
         <div v-for="num in smallSensors" :key="num.name" class="uk-width-1-2">
@@ -76,75 +77,78 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import NumDisplay from "@/components/NumDisplay";
-import * as machineVariables from "@/controller/machine_info";
-import { mapGetters } from "vuex";
+  // @ is an alias to /src
+  import NumDisplay from "@/components/NumDisplay";
+  import * as machineVariables from "@/controller/machine_info";
+  import { mapGetters, mapMutations } from "vuex";
 
-export default {
-  name: "StatusNumbers",
-  components: {
-    NumDisplay,
-  },
-  data: function () {
-    return {
-      OPTIONAL_SENSOR_INFO: machineVariables.OPTIONAL_SENSOR_INFO,
-      display: false,
-      warning: false,
-      HEATING_ZONES: machineVariables.HEATING_ZONES,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      optionalSensors: "machine/optionalSensors",
-      temperatureControllers: "machine/temperatureControllers",
-    }),
-    smallSensors() {
-      return this.optionalSensors;
+  export default {
+    name: "StatusNumbers",
+    components: {
+      NumDisplay
     },
-  },
-  methods: {
-    override(name, value) {
-      console.log(`override setpoint of ${name}`);
-      // if input is within limits
-      if (
-        value >= machineVariables.HEATING_ZONES[0].limits[0] &&
-        value <= machineVariables.HEATING_ZONES[0].limits[1]
-      ) {
-        switch (name) {
-          case "top plate":
-            // update setpoint
-            this.$store.state.machine.tempControllers[0].setpoint = value;
-            // close input fields
-            this.display = !this.display;
-            // make sure warning is not displayed
-            this.warning = false;
-            return;
-
-          case "bottom plate":
-            this.$store.state.machine.tempControllers[1].setpoint = value;
-            this.display = !this.display;
-            this.warning = false;
-            return;
-        }
-      } else {
-        // display warning
-        this.warning = !this.warning;
-        return;
+    data: function () {
+      return {
+        OPTIONAL_SENSOR_INFO: machineVariables.OPTIONAL_SENSOR_INFO,
+        display: false,
+        warning: false,
+        HEATING_ZONES: machineVariables.HEATING_ZONES
+      };
+    },
+    computed: {
+      ...mapGetters({
+        optionalSensors: "machine/optionalSensors",
+        temperatureControllers: "machine/temperatureControllers"
+      }),
+      smallSensors() {
+        return this.optionalSensors;
       }
     },
+    methods: {
+      override(index, value) {
+        console.log(`override setpoint of ${index}`);
+        // if input is within limits
+        if (
+          value >= machineVariables.HEATING_ZONES[index].limits[0] &&
+          value <= machineVariables.HEATING_ZONES[index].limits[1]
+        ) {
+          console.log(this.temperatureControllers);
+          // update setpoint
+          let newProf = new machineVariables.CONTROL_STATE();
+          newProf.setNull();
+          newProf.temp[index] = value;
+          this.editFirstCurrentPoint(newProf);
+          //Start and pause machine
+          this.$store.dispatch("machine/attemptToPauseMachine");
+          //this.setSetpoint([index, value]);
+          //this.$store.state.machine.tempControllers[index].setpoint = value;
+          // close input fields
+          this.display = !this.display;
+          // make sure warning is not displayed
+          this.warning = false;
+          return;
+        } else {
+          // display warning
+          this.warning = !this.warning;
+          return;
+        }
+      },
 
-    displayInput() {
-      this.display = !this.display;
-      return;
-    },
-  },
-};
+      displayInput() {
+        this.display = !this.display;
+        return;
+      },
+      ...mapMutations({
+        setSetpoint: "machine/setSetpoint",
+        editFirstCurrentPoint: "profile/editFirstCurrentPoint"
+      })
+    }
+  };
 </script>
 
 <style lang="scss" scoped>
-@use "../assets/css/variables";
-.overrideButton {
-  padding-left: 15%;
-}
+  @use "../assets/css/variables";
+  .overrideButton {
+    padding-left: 15%;
+  }
 </style>

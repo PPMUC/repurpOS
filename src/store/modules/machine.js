@@ -46,6 +46,7 @@ const state = function () {
 
   return {
     isRunning: false,
+    isPaused: false,
     limitSwitches: limitSwitches,
     optionalSensors: optionalSensors,
     requiredSensors: requiredSensors,
@@ -71,7 +72,7 @@ const getters = {
     for (let i = 0; i < state.tempControllers.length; i++) {
       current.push(state.tempControllers[i].current);
     }
-    return current;  
+    return current;
   },
   tempControllerSetpoints(state) {
     let setpoints = [];
@@ -94,10 +95,16 @@ const actions = {
     }
   },
   async attemptToStartMachine({ commit, state }) {
+    //Dont start if already started
+    if (state.isRunning) return;
     if (state.logic.attemptToStartMachine() === 1) {
       commit("setRunning", true);
       router.push("/");
     }
+  },
+  async attemptToPauseMachine({ dispatch, commit }) {
+    dispatch("attemptToStartMachine");
+    commit("setPause");
   }
 };
 
@@ -105,6 +112,12 @@ const actions = {
 const mutations = {
   setRunning(state, run) {
     state.isRunning = run;
+    if (run === false) {
+      state.isPaused = false;
+    }
+  },
+  setPause(state) {
+    state.isPaused = true;
   },
   setLogic(state, logic) {
     state.logic = logic;

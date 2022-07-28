@@ -148,6 +148,24 @@ const mutations = {
       state.proposed.splice(index, 1);
     }
   },
+  //& Edit
+  editFirstCurrentPoint(state, newProfile) {
+    newProfile.time = 0;
+    for (let i = 0; i < newProfile.temp.length; i++) {
+      let val = newProfile.temp[i];
+      if (val !== null) state.current[0].temp[i] = val;
+      console.log(i);
+      console.log(val);
+    }
+    for (const key in newProfile.miscRequiredSensor) {
+      let val = newProfile.miscRequiredSensor[key];
+      if (val !== null) state.current[0].miscRequiredSensor[key] = val;
+      console.log(key);
+      console.log(val);
+    }
+
+    console.log(state.current);
+  },
   //& Append
   appendCurrentProfile(state, newProfile) {
     state.current = state.current.concat(newProfile);

@@ -1,33 +1,71 @@
 <template>
   <div class="home uk-padding-remove">
     <div class="uk-flex uk-margin-remove" uk-grid>
-      <div class="uk-card uk-card-default uk-card-body uk-width-1-4">
-        <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
-          <li class="uk-active">
-            <a href="#"
-              ><span class="uk-margin-small-right" uk-icon="icon: table"></span>
-              Item</a
-            >
-          </li>
-          <li>
+      <div
+        class="
+          uk-card uk-card-default uk-card-body uk-width-1-4 uk-padding-bottom
+        "
+      >
+        <ul
+          class="uk-tab-left"
+          uk-tab="connect: #component-tab-left; animation: uk-animation-fade"
+        >
+          <li v-for="category in settings" :key="category">
             <a href="#"
               ><span
                 class="uk-margin-small-right"
-                uk-icon="icon: thumbnails"
+                :uk-icon="'icon: ' + category.icon"
               ></span>
-              Item</a
-            >
-          </li>
-          <li class="uk-nav-divider"></li>
-          <li>
-            <a href="#"
-              ><span class="uk-margin-small-right" uk-icon="icon: trash"></span>
-              Item</a
+              {{ category.name }}</a
             >
           </li>
         </ul>
       </div>
       <div class="uk-width-expand">
+        <div class="uk-width-expand uk-margin uk-padding">
+          <ul id="component-tab-left" class="uk-switcher">
+            <li v-for="category in settings" :key="category">
+              <div
+                v-for="(setting, index) in category.settings"
+                :key="index"
+                uk-grid
+              >
+                <form class="uk-form-horizontal uk-margin-small">
+                  <div class="uk-margin">
+                    <div class="uk-flex">
+                      <label
+                        class="uk-text uk-margin-auto-vertical uk-margin-right"
+                        for="form-time"
+                        >{{ setting.name }}</label
+                      >
+                      <div class="uk-form-controls">
+                        <input
+                          v-if="!setting.isButton"
+                          class="uk-input uk-form-width-small"
+                          id="form-time"
+                          :type="getInputType(setting.value)"
+                          placeholder=""
+                          v-model="setting.value"
+                        />
+                        <button
+                          v-if="setting.isButton"
+                          @click="handleFunctionCall(setting.buttonAction)"
+                          class="uk-button uk-button-danger"
+                          type="button"
+                        >
+                          {{ setting.name }}
+                        </button>
+                      </div>
+                    </div>
+                    <p class="uk-text-muted uk-text-left uk-margin-remove">
+                      {{ setting.description }}
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </li>
+          </ul>
+        </div>
         <hr class="uk-margin-remove-top" />
         <div class="uk-margin uk-margin-large-bottom uk-text-right">
           <button
@@ -45,7 +83,7 @@
               uk-margin-small-right
             "
             type="button"
-            @click="saveProfile"
+            @click="saveSettings"
           >
             Use
           </button>
@@ -92,114 +130,61 @@
   import * as gui from "@/controller/GUI";
 
   export default {
-    name: "Profile",
+    name: "Settings",
     components: {
       //ProfileChart,
     },
     setup() {},
-    beforeMount() {
-      console.log("Mounted");
-      this.$store.dispatch("profile/setProposedProfileFromCurrent");
-    },
     data: function () {
+      console.log(this.$store.state.settings);
+      let sett = JSON.parse(JSON.stringify(this.$store.state.settings));
+      console.log(sett);
       return {
-        enableZoom: false,
-        selectedMarker: -1,
-        selectedSeries: -1,
-        markerData: {},
-        HEATING_ZONES: machineVariables.HEATING_ZONES,
-        REQUIRED_SENSOR_INFO: machineVariables.REQUIRED_SENSOR_INFO
+        settings: sett
       };
     },
     computed: {
       ...mapGetters({
-        currentSeries: "profile/getChartSeriesCurrent",
-        proposedSeries: "profile/getChartSeriesProposed",
-        currentProfile: "profile/getCurrent",
-        proposedProfile: "profile/getProposed"
-      }),
-      chartSeries() {
-        return this.proposedSeries;
-      },
-      selectedMarkerTime() {
-        return this.proposedProfile[this.selectedMarker].time;
-      }
+        freshSettings: "settings/getSettings"
+      })
     },
     methods: {
-      saveProfile() {
-        this.setCurrentProfileFromProposed();
-        this.$router.go(-1);
-        console.log(this.currentProfile);
+      getInputType(input) {
+        if (typeof input === "string") return "text";
+        else if (typeof input === "number") return "number";
+        else if (typeof input === "boolean") return "checkbox";
       },
-      markerClick: function (
-        event,
-        chartContext,
-        { seriesIndex, dataPointIndex, config }
-      ) {
-        console.log(`Marker ${dataPointIndex} clicked`);
-        chartContext.toggleDataPointSelection(seriesIndex, dataPointIndex);
-        //Check if we turning on or off
-        if (
-          this.selectedMarker === dataPointIndex &&
-          this.selectedSeries === seriesIndex
-        ) {
-          this.selectedMarker = -1;
-          this.selectedSeries = -1;
-        } else {
-          this.selectedMarker = dataPointIndex;
-          this.selectedSeries = seriesIndex;
-        }
-        this.markerData = this.proposedProfile[this.selectedMarker];
-      },
-      increaseSelection: function () {
-        // this.$refs.chart.toggleDataPointSelection(this.selectedSeries, this.selectedMarker);
-        this.$refs.chart.toggleDataPointSelection(
-          this.selectedSeries,
-          ++this.selectedMarker
-        );
-        // this.toggleMarkersAtIndex(this.selectedMarker);
-        // this.toggleMarkersAtIndex(++this.selectedMarker);
-      },
-      decreaseSelection: function () {
-        //this.$refs.chart.toggleDataPointSelection(this.selectedSeries, this.selectedMarker);
-        this.$refs.chart.toggleDataPointSelection(
-          this.selectedSeries,
-          --this.selectedMarker
-        );
-      },
-      // toggleMarkersAtIndex: function (index) {
-      //   for (let i = 0; i < this.proposedSeries.length; i++) {
-      //     this.$refs.chart.toggleDataPointSelection(i, index)
-      //   }
-      // },
-      addPoint: function () {
-        let newTime = 0;
-        let newPoint;
-        //Set time
-        if (this.selectedMarker !== -1) {
-          newPoint = this.proposedProfile[this.selectedMarker].copyProperties();
-          newPoint.time =
-            this.selectedMarkerTime + gui.PROFILE_ADD_POINT_FORWARD_TIME;
-        } else {
-          newPoint = new machineVariables.CONTROL_STATE(0);
-        }
-        //Set the point
-        this.addProposedPoint(newPoint);
-      },
-      removePoint: function () {
-        this.removeProposedPoint(this.proposedProfile[this.selectedMarker]);
-      },
-      finishedEditPoint: function () {
-        this.sortProposedPoints();
-      },
-      ...mapActions({
-        addProposedPoint: "profile/addProposedPoint",
-        setCurrentProfileFromProposed: "profile/setCurrentProfileFromProposed"
-      }),
       ...mapMutations({
-        removeProposedPoint: "profile/removeProposedPoint",
-        sortProposedPoints: "profile/sortProposedPoints"
-      })
+        setSetting: "settings/setSetting"
+      }),
+      saveSettings() {
+        console.log("Saving settings");
+        console.log(this.settings);
+        console.log(Object.keys(this.settings));
+        for (let category of Object.keys(this.settings)) {
+          console.log(category);
+          //console.log(key);
+          //console.log(`category is ${category} and key is ${key}`);
+          for (let i = 0; i < this.settings[category].settings.length; i++) {
+            this.setSetting({
+              category: category,
+              setting: i,
+              value: this.settings[category].settings[i].value
+            });
+          }
+        }
+      },
+      handleFunctionCall(functionName) {
+        console.log("Running button" + functionName);
+        this[functionName]();
+      },
+      resetAllSettingsAndShortcuts() {
+        console.log("Deleted settings");
+        window.localStorage.removeItem("vuex");
+      },
+      refreshApp() {
+        window.location.reload();
+      }
     }
   };
 </script>

@@ -26,7 +26,7 @@ export const showError = (err) => {
     message: err,
     status: "danger",
     pos: "top-right",
-    timeout: 5000,
+    timeout: 5000
   });
 };
 
@@ -81,3 +81,18 @@ export const linearExtrapolateData = (
 
   return linearM * newX + linearC;
 };
+
+// /**
+//  * Figures out the object ype of a value held in a string
+//  * @param {String} input x coordinate of point 1
+//  * @usage
+//  *   let type = getDataTypeFromString("false");
+//  *  //Result = "boolean";
+//  */
+// export const getDataTypeFromString = (input) => {
+//   let num = Number(input)
+//   if(num !== NaN){
+//     return "number"
+//   }
+  
+// };

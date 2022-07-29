@@ -80,6 +80,7 @@
   // @ is an alias to /src
   import NumDisplay from "@/components/NumDisplay";
   import * as machineVariables from "@/controller/machine_info";
+  import * as structures from "@/cfg/structures";
   import { mapGetters, mapMutations } from "vuex";
 
   export default {
@@ -115,7 +116,7 @@
           console.log(this.temperatureControllers);
           // update setpoint
           let newProf = new machineVariables.CONTROL_STATE();
-          newProf.setNull();
+          structures.CONTROL_STATE_SET_NULL(newProf);
           newProf.temp[index] = value;
           this.editFirstCurrentPoint(newProf);
           //Start and pause machine

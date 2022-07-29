@@ -72,10 +72,9 @@
           </button>
           <button
             class="uk-button uk-button-default"
-            uk-toggle="target: #modal-open-profile"
-            disabled
+            uk-toggle="target: #modal-edit-profile"
           >
-            <span class="uk-text">Edit</span>
+            <span uk-icon="icon: pencil"></span>
           </button>
         </div>
       </div>
@@ -126,7 +125,7 @@
         </button>
       </div>
     </div>
-    <!-- This is the modal -->
+    <!-- confirm delete modal -->
     <div id="modal-confirm-delete-point" uk-modal>
       <div class="uk-modal-dialog">
         <div class="uk-modal-header">
@@ -152,6 +151,7 @@
         </div>
       </div>
     </div>
+    <!-- cancel profile MODAL -->
     <div id="modal-confirm-cancel-profile" uk-modal>
       <div class="uk-modal-dialog">
         <div class="uk-modal-header">
@@ -177,6 +177,7 @@
         </div>
       </div>
     </div>
+    <!-- EDIT point MODAL -->
     <div id="modal-edit-point" uk-modal>
       <div class="uk-modal-dialog">
         <div class="uk-modal-header">
@@ -278,7 +279,12 @@
             </div>
           </form>
         </div>
-        <div class="uk-modal-footer uk-text-right">
+        <div class="uk-modal-footer uk-text-right uk-flex">
+          <div class="uk-width-expand uk-margin-remove">
+            <h3 class="uk-text uk-text-small uk-text-center uk-text-muted">
+              Automatically saved
+            </h3>
+          </div>
           <button
             class="uk-button uk-button-primary uk-modal-close"
             type="button"
@@ -289,6 +295,8 @@
         </div>
       </div>
     </div>
+
+    <!-- OPEN PROFILE MODAL -->
     <div id="modal-open-profile" uk-modal>
       <div class="uk-modal-dialog">
         <div class="uk-modal-header">
@@ -318,6 +326,7 @@
         </div>
       </div>
     </div>
+    <!-- Save profile MODAL -->
     <div id="modal-save-profile" uk-modal>
       <div class="uk-modal-dialog">
         <div class="uk-modal-header">
@@ -370,6 +379,93 @@
         </div>
       </div>
     </div>
+    <!-- EDIT NAME MODAL -->
+    <div id="modal-edit-profile" uk-modal>
+      <div class="uk-modal-dialog">
+        <div class="uk-modal-header">
+          <h2 class="uk-modal-title">Edit Profile</h2>
+        </div>
+        <div class="uk-modal-body">
+          <form class="uk-form-horizontal uk-margin-small">
+            <div class="uk-margin uk-flex">
+              <label
+                class="uk-text uk-margin-auto-vertical uk-margin-right"
+                for="form-time"
+                >Name</label
+              >
+              <div class="uk-form-controls uk-margin-remove">
+                <input
+                  class="uk-input"
+                  style="width: 400px"
+                  type="text"
+                  v-model="profileName"
+                />
+              </div>
+            </div>
+            <div class="uk-margin uk-flex">
+              <label
+                class="uk-text uk-margin-auto-vertical uk-margin-right"
+                for="form-time"
+                >Description</label
+              >
+              <div class="uk-form-controls uk-margin-remove">
+                <textarea
+                  class="uk-textarea"
+                  style="width: 400px"
+                  v-model="profileDescription"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="uk-modal-footer uk-flex">
+          <button
+            class="uk-button uk-button-danger uk-modal-close"
+            type="button"
+            uk-toggle="target: #modal-confirm-delete-profile"
+          >
+            Delete
+          </button>
+          <div class="uk-width-expand uk-margin-remove">
+            <h3 class="uk-text uk-text-small uk-text-center uk-text-muted">
+              Automatically saved
+            </h3>
+          </div>
+          <button
+            class="uk-button uk-button-primary uk-modal-close"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- confirm delete modal -->
+    <div id="modal-confirm-delete-profile" uk-modal>
+      <div class="uk-modal-dialog">
+        <div class="uk-modal-header">
+          <h2 class="uk-modal-title">Are you sure?</h2>
+        </div>
+        <div class="uk-modal-body">
+          <p>You are deleting this profile. This action cannot be undone</p>
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+          <button
+            class="uk-button uk-button-default uk-margin-right uk-modal-close"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            class="uk-button uk-button-danger uk-modal-close"
+            type="button"
+            @click="deleteProfile"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -381,6 +477,7 @@
   import { mapGetters, mapActions, mapMutations } from "vuex";
   import ApexChart from "vue3-apexcharts";
   import * as machineVariables from "@/controller/machine_info";
+  import * as structures from "@/cfg/structures";
   import * as gui from "@/controller/GUI";
   import Profile from "@/classes/Profile";
 
@@ -433,6 +530,7 @@
         HEATING_ZONES: machineVariables.HEATING_ZONES,
         REQUIRED_SENSOR_INFO: machineVariables.REQUIRED_SENSOR_INFO,
         profileName: "",
+        profileDescription: "",
         saveProfileName: 0,
         loadProfileDatetime: 0
       };
@@ -504,11 +602,13 @@
         let newPoint;
         //Set time
         if (this.selectedMarker !== -1) {
-          newPoint = this.proposedProfile[this.selectedMarker].copyProperties();
+          newPoint = structures.CONTROL_STATE_COPY_PROPERTIES(
+            this.proposedProfile[this.selectedMarker]
+          );
           newPoint.time =
             this.selectedMarkerTime + gui.PROFILE_ADD_POINT_FORWARD_TIME;
         } else {
-          newPoint = new machineVariables.CONTROL_STATE(0);
+          newPoint = new structures.CONTROL_STATE(0);
         }
         //Set the point
         this.addProposedPoint(newPoint);
@@ -521,10 +621,13 @@
       },
       clearProfile: function () {
         this.clearProposed();
+        this.profileName = "";
+        this.profileDescription = "";
       },
       saveNewProfile: function () {
         let prof = new Profile({
           name: this.profileName,
+          description: this.profileDescription,
           datetime: Date.now().toString(),
           points: [...this.proposedProfile]
         });
@@ -539,19 +642,27 @@
       openProfile() {
         console.log(this.profileList);
         console.log(this.loadProfileDatetime);
+        //Find the profile that matches datetime
         let prof = this.profileList.find(
           (x) => x.datetime === this.loadProfileDatetime
         );
         console.log(prof);
         console.log(prof.points);
         this.setProposedProfile(prof.points);
+        this.profileName = prof.name;
+        this.profileDescription = prof.description;
+      },
+      deleteProfile() {
+        this.deleteProfileCloud(this.loadProfileDatetime);
+        this.clearProfile();
       },
       ...mapActions({
         addProposedPoint: "profile/addProposedPoint",
         setCurrentProfileFromProposed: "profile/setCurrentProfileFromProposed",
         setProposedProfile: "profile/setProposedProfile",
         createNewProfile: "cloud/createNewProfile",
-        editExistingProfilePoints: "cloud/editExistingProfilePoints"
+        editExistingProfilePoints: "cloud/editExistingProfilePoints",
+        deleteProfileCloud: "cloud/deleteProfile"
       }),
       ...mapMutations({
         removeProposedPoint: "profile/removeProposedPoint",

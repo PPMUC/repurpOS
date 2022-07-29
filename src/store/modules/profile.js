@@ -1,5 +1,6 @@
 // import machineController from "@/controller";
 import * as machineVariables from "@/controller/machine_info";
+import * as structures from "@/cfg/structures";
 import * as Util from "@/classes/Util";
 import { ErrorCodes } from "vue";
 // import router from "../../router";
@@ -10,14 +11,11 @@ const state = function () {
   return {
     proposed: [],
     current: [
-      new machineVariables.CONTROL_STATE(0, [0, 0]),
-      new machineVariables.CONTROL_STATE(7, [30, 10], true),
-      new machineVariables.CONTROL_STATE(10, [7, 6])
+      new structures.CONTROL_STATE(0, [0, 0]),
+      new structures.CONTROL_STATE(7, [30, 10], true),
+      new structures.CONTROL_STATE(10, [7, 6])
     ],
-    actual: [
-      new machineVariables.CONTROL_STATE(0),
-      new machineVariables.CONTROL_STATE(10)
-    ]
+    actual: [new structures.CONTROL_STATE(0), new structures.CONTROL_STATE(10)]
   };
 };
 
@@ -108,7 +106,7 @@ const actions = {
     commit("clearCurrent");
     let newArr = [];
     for (let el of state.proposed) {
-      newArr.push(el.copyProperties());
+      newArr.push(structures.CONTROL_STATE_COPY_PROPERTIES(el));
     }
     console.log(newArr);
     commit("appendCurrentProfile", newArr);
@@ -117,7 +115,7 @@ const actions = {
     commit("clearProposed");
     let newArr = [];
     for (let el of state.current) {
-      newArr.push(el.copyProperties());
+      newArr.push(structures.CONTROL_STATE_COPY_PROPERTIES(el));
     }
     commit("appendProposedProfile", newArr);
   },

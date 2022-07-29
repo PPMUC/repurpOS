@@ -93,6 +93,7 @@
   //import ProfileChart from "@/components/ProfileChart"
   import { mapGetters, mapActions, mapMutations } from "vuex";
   import * as machineVariables from "@/controller/machine_info";
+  import * as structures from "@/cfg/structures";
   import * as gui from "@/controller/GUI";
 
   export default {
@@ -181,11 +182,11 @@
         let newPoint;
         //Set time
         if (this.selectedMarker !== -1) {
-          newPoint = this.proposedProfile[this.selectedMarker].copyProperties();
+          newPoint = structures.CONTROL_STATE_COPY_PROPERTIES(this.proposedProfile[this.selectedMarker]);
           newPoint.time =
             this.selectedMarkerTime + gui.PROFILE_ADD_POINT_FORWARD_TIME;
         } else {
-          newPoint = new machineVariables.CONTROL_STATE(0);
+          newPoint = new structures.CONTROL_STATE(0);
         }
         //Set the point
         this.addProposedPoint(newPoint);

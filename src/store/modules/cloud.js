@@ -29,6 +29,19 @@ const actions = {
   ) {
     newProfile.datetime = profileDatetime;
     dispatch("createNewProfile", newProfile);
+  },
+  async deleteProfile({ state, commit }, deleteDatetime) {
+    console.log(deleteDatetime);
+    //Check if on the pending upload list
+    let index = state.profilesPendingUpload.findIndex(
+      (x) => x.datetime === deleteDatetime
+    );
+    if (index !== -1) {
+      state.profilesPendingUpload.slice(index, 1);
+      return;
+    }
+    //Profile must be on cloud list
+    //CLOUD DELETE
   }
 };
 

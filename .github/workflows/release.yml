@@ -24,13 +24,13 @@ jobs:
           tags: latest
           #context: .
           outputs: type=docker,dest=/tmp/repurpos.tar
-      - uses: shrink/actions-docker-extract@v1
-        id: extract
-        with:
-          image: $(docker load -q -i /tmp/repurpos.tar)repurpos
-          path: /dist_electron/.
-      - name: Upload Dist
-        uses: actions/upload-artifact@v3
-        with:
-          path: ${{ steps.extract.outputs.destination }}
-          name: dist
+#      - uses: shrink/actions-docker-extract@v1
+#        id: extract
+#        with:
+#          image: $(docker load -q -i /tmp/repurpos.tar)repurpos
+#          path: /dist_electron/.
+#      - name: Upload Dist
+#        uses: actions/upload-artifact@v3
+#        with:
+#          path: ${{ steps.extract.outputs.destination }}
+#          name: dist

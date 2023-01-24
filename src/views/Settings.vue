@@ -4,8 +4,7 @@
       <div
         class="
           uk-card uk-card-default uk-card-body uk-width-1-4 uk-padding-bottom
-        "
-      >
+        ">
         <ul
           class="uk-tab-left"
           uk-tab="connect: #component-tab-left; animation: uk-animation-fade"
@@ -13,7 +12,7 @@
           <li v-for="category in settings" :key="category">
             <a href="#"
               ><span
-                class="uk-margin-small-right"
+                class="uk-margin-small-right uk-text-large"
                 :uk-icon="'icon: ' + category.icon"
               ></span>
               {{ category.name }}</a
@@ -40,21 +39,34 @@
                       >
                       <div class="uk-form-controls">
                         <input
-                          v-if="!setting.isButton"
+                          v-if="!setting.isButton && !setting.isDropDown" 
                           class="uk-input uk-form-width-small"
                           id="form-time"
                           :type="getInputType(setting.value)"
                           placeholder=""
                           v-model="setting.value"
-                        />
+                        
+                        >
+                       <!--{{ setting.isDropDown }}-->            
+                       <!--{{ setting.isButton }}--> 
+                       <!--{{ !setting.isButton && !setting.isDropDown }}--> 
                         <button
-                          v-if="setting.isButton"
+                          v-if="setting.isButton" 
                           @click="handleFunctionCall(setting.buttonAction)"
                           class="uk-button uk-button-danger"
                           type="button"
                         >
                           {{ setting.name }}
                         </button>
+                        <select 
+                          v-if= "setting.isDropDown"
+                          class="uk-select" aria-label="Select"
+                          id = "dropDownList" 
+                          >  
+                          <option>Dark</option>
+                          <option>Light</option>
+                          <option>More Options later</option>
+                        </select>
                       </div>
                     </div>
                     <p class="uk-text-muted uk-text-left uk-margin-remove">
@@ -117,6 +129,31 @@
         </div>
       </div>
     </div>
+    <div id="modal-confirm-reset-settings" uk-modal>
+      <div class="uk-modal-dialog">
+        <div class="uk-modal-header">
+          <h2 class="uk-modal-title">Are you sure?</h2>
+        </div>
+        <div class="uk-modal-body">
+          <p>Confirm to reset the setting</p>
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+          <button
+            class="uk-button uk-button-default uk-margin-right uk-modal-close"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            class="uk-button uk-button-danger uk-modal-close"
+            type="button"
+            @click="resetAllSettingsAndShortcuts"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -128,6 +165,8 @@
   import { mapGetters, mapActions, mapMutations } from "vuex";
   import * as machineVariables from "@/controller/machine_info";
   import * as gui from "@/controller/GUI";
+  import * as Util from "@/classes/Util";
+  import UIkit from "uikit";
 
   export default {
     name: "Settings",
@@ -178,12 +217,18 @@
         console.log("Running button" + functionName);
         this[functionName]();
       },
+      openConfirmationOfResetPopUp(){
+        UIkit.modal("#modal-confirm-reset-settings").toggle();
+      },
       resetAllSettingsAndShortcuts() {
         console.log("Deleted settings");
         window.localStorage.removeItem("vuex");
       },
       refreshApp() {
         window.location.reload();
+      },
+      refreshAllShortCut(){
+        Util.showError("The error is not implemented")
       }
     }
   };

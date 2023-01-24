@@ -5,7 +5,9 @@ export default class Setting {
     icon = "",
     value = "",
     isButton = false,
-    buttonAction = ""
+    buttonAction = "",
+    isDropDown = false,
+    dropDownList = []
   }) {
     this.name = name;
     this.description = description;
@@ -13,5 +15,8 @@ export default class Setting {
     this.value = value;
     this.isButton = isButton;
     this.buttonAction = buttonAction;
+    this.isDropDown = isDropDown;
+    this.dropDownList = dropDownList;
+
   }
 }

@@ -45,7 +45,6 @@
                           :type="getInputType(setting.value)"
                           placeholder=""
                           v-model="setting.value"
-                        
                         >
                        <!--{{ setting.isDropDown }}-->            
                        <!--{{ setting.isButton }}--> 
@@ -62,11 +61,13 @@
                           v-if= "setting.isDropDown"
                           class="uk-select" aria-label="Select"
                           id = "dropDownList" 
+                          v-model = "general"
                           >  
-                          <option>Dark</option>
-                          <option>Light</option>
-                          <option>More Options later</option>
+                          <option disabled value="">Please select one</option>
+                          <option   v-for="option in setting.dropDownList" :key ="option"
+                          >{{option.name}}</option>
                         </select>
+                        
                       </div>
                     </div>
                     <p class="uk-text-muted uk-text-left uk-margin-remove">

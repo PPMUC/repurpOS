@@ -9,7 +9,10 @@ export const SETTINGS = {
       new Setting({ 
         name: "Theme",
         isDropDown: true, 
-        dropDownList: ["Light", " Dark"]
+        dropDownList: [
+          {name: 'Light'},
+          {name: 'Dark'}
+        ]
     })]
   },
   machine: {

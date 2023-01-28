@@ -32,13 +32,14 @@ The idea for this system is that one codebase is used on all machines.
 - ~~Manual overrides~~
 - ~~Loading screen/start menu~~
 - ~~Saving and loading profiles~~
+- ~~Edit Profile description and delete~~
+
   \
    &nbsp;
   \
    &nbsp;
 
 - PPM Cloud integration
-- Edit Profile description and delete
 
 - Bottom bar status - add info from platform file
 

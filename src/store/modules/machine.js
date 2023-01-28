@@ -83,6 +83,9 @@ const getters = {
   },
   limitSwitches(state) {
     return state.limitSwitches;
+  },
+  machineRunCounter(state) {
+    return state.machineRunCounter;
   }
 };
 
@@ -91,12 +94,20 @@ const actions = {
   async attemptToStopMachine({ commit, state }) {
     if (state.logic.attemptToStopMachine() === 1) {
       commit("setRunning", false);
+      state.machineRunCounter = 0;
       router.push("/stopped");
     }
   },
   async attemptToStartMachine({ commit, state }) {
     //Dont start if already started
-    if (state.isRunning) return;
+    if (state.isRunning) {
+      if (state.logic.attemptToUnPauseMachine() === 1) {
+        //Unpause if alreadys started
+        state.isPaused = false;
+      }
+      return;
+    }
+
     if (state.logic.attemptToStartMachine() === 1) {
       commit("setRunning", true);
       router.push("/");

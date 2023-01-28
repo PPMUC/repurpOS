@@ -608,7 +608,7 @@
           newPoint.time =
             this.selectedMarkerTime + gui.PROFILE_ADD_POINT_FORWARD_TIME;
         } else {
-          newPoint = new structures.CONTROL_STATE(0);
+          newPoint = new machineVariables.CONTROL_STATE(0);
         }
         //Set the point
         this.addProposedPoint(newPoint);

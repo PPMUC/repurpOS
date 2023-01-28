@@ -57,6 +57,13 @@ export default class controller {
     return 1;
   }
 
+  //Attempt to begin sheet press
+  //Return 1 if succescesful
+  attemptToUnPauseMachine() {
+    this.lastUpdateTime = Date.now();
+    return 1;
+  }
+
   /**
    * Runs every loop to update MCU of temperature values and other
    */
@@ -178,7 +185,7 @@ export default class controller {
 
   //Runs when theres new data from machine
   dataReady() {
-    // this.checkSafety();
+    this.checkSafety();
   }
 
   checkSafety() {

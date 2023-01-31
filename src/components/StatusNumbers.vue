@@ -92,6 +92,7 @@
   import * as machineVariables from "@/controller/machine_info";
   import * as structures from "@/cfg/structures";
   import { mapGetters, mapMutations } from "vuex";
+  import * as Util from "@/classes/Util";
 
   export default {
     name: "StatusNumbers",
@@ -109,7 +110,8 @@
     computed: {
       ...mapGetters({
         optionalSensors: "machine/optionalSensors",
-        temperatureControllers: "machine/temperatureControllers"
+        temperatureControllers: "machine/temperatureControllers",
+        runCounter: "machine/machineRunCounter"
       }),
       smallSensors() {
         return this.optionalSensors;
@@ -126,6 +128,8 @@
           console.log(this.temperatureControllers);
           // update setpoint
           let newProf = new machineVariables.CONTROL_STATE();
+          //Set profile time to current time
+          newProf.time = this.runCounter;
           structures.CONTROL_STATE_SET_NULL(newProf);
           newProf.temp[index] = value;
           this.editFirstCurrentPoint(newProf);
@@ -146,7 +150,14 @@
       },
 
       displayInput() {
-        this.display = !this.display;
+        console.log(this.$store);
+        if (this.runCounter !== 0) {
+          Util.showError(
+            "Cannot override while a profile is being followed. Please try pausing and adjusting profile instead."
+          );
+        } else {
+          this.display = !this.display;
+        }
         return;
       },
       ...mapMutations({

@@ -3,6 +3,7 @@ import * as machineVariables from "@/controller/machine_info";
 import * as structures from "@/cfg/structures";
 import * as Util from "@/classes/Util";
 import { ErrorCodes } from "vue";
+import { CONTROL_STATE } from "../../controller/machine_info";
 // import router from "../../router";
 
 // initial state
@@ -11,11 +12,14 @@ const state = function () {
   return {
     proposed: [],
     current: [
-      new structures.CONTROL_STATE(0, [0, 0]),
-      new structures.CONTROL_STATE(7, [30, 10], true),
-      new structures.CONTROL_STATE(10, [7, 6])
+      new machineVariables.CONTROL_STATE(0, [0, 0]),
+      new machineVariables.CONTROL_STATE(7, [30, 10], true),
+      new machineVariables.CONTROL_STATE(10, [7, 6])
     ],
-    actual: [new structures.CONTROL_STATE(0), new structures.CONTROL_STATE(10)]
+    actual: [
+      new machineVariables.CONTROL_STATE(0),
+      new machineVariables.CONTROL_STATE(10)
+    ]
   };
 };
 
@@ -171,6 +175,43 @@ const mutations = {
     }
 
     console.log(state.current);
+  },
+  //& Edit point or if doesn't exist, make a new one
+  editCurrentTimePoint(state, newProfile) {
+    throw ErrorCodes.NotImplemented;
+
+    // //Find if state at current time exists
+    // let currentProf = null;
+    // for (const prof of state.current) {
+    //   if (prof.time === newProfile.time) {
+    //     //Edit existing point
+    //     currentProf = prof;
+
+    //     //Only one point we need to change
+    //     break;
+    //   }
+    // }
+
+    // if (currentProf === null) {
+    //   //We need to make a new point
+    //   currentProf = structures.CONTROL_STATE_COPY_PROPERTIES();
+    // }
+
+    // //newprofile will have everything except what youy want to change set to null
+    // for (let i = 0; i < newProfile.temp.length; i++) {
+    //   let val = newProfile.temp[i];
+    //   if (val !== null) currentProf.temp[i] = val;
+    //   console.log(i);
+    //   console.log(val);
+    // }
+    // for (const key in newProfile.miscRequiredSensor) {
+    //   let val = newProfile.miscRequiredSensor[key];
+    //   if (val !== null) currentProf.miscRequiredSensor[key] = val;
+    //   console.log(key);
+    //   console.log(val);
+    // }
+
+    // console.log(state.current);
   },
   //& Append
   appendCurrentProfile(state, newProfile) {

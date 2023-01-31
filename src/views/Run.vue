@@ -1,7 +1,7 @@
 <template>
   <div class="home uk-padding-remove">
     <div class="uk-flex uk-margin-remove" uk-grid>
-      <StatusNumbers class="uk-width-1-3"></StatusNumbers>
+        <StatusNumbers class = "uk-width-1-3"></StatusNumbers>
       <div class="uk-width-expand uk-padding-left" id="chart">
         <ApexChart
           ref="chart"
@@ -11,7 +11,7 @@
           :series="chartSeries"
         >
         </ApexChart>
-      </div>
+      </div>    
     </div>
   </div>
 </template>

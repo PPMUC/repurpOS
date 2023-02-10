@@ -15,12 +15,13 @@ export default class controller {
   //Run safety checks
   //Return 0 if switches are closed
   isLimitSwitchesClosed() {
-    for (const [key, value] of Object.entries(
+    for (const [, value] of Object.entries(
       this.app.$store.state.machine.limitSwitches
     )) {
+      console.log(value)
       //Return name of switch that isnt closed
       if (!value.state) {
-        return key;
+        return value;
       }
     }
     return 0;
@@ -30,12 +31,12 @@ export default class controller {
   //Return 1 if succescesful
   attemptToStartMachine() {
     // console.log(this.app.$store.state);
-    let key = this.isLimitSwitchesClosed();
+    let value = this.isLimitSwitchesClosed();
     // console.log(key);
     // console.log(machine_info.LIM_SWITCH_INFO);
-    if (key != 0) {
+    if (value !== 0) {
       Util.showError(
-        machine_info.LIM_SWITCH_INFO[key].description +
+        machine_info.LIM_SWITCH_INFO[value.name].description +
           " limit switch open. Failed to start"
       );
       return 0;

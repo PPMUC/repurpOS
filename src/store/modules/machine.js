@@ -39,7 +39,7 @@ const state = function () {
   let limitSwitches = [];
   for (const [nom, tcon] of Object.entries(machineVariables.LIM_SWITCH_INFO)) {
     limitSwitches.push({
-      state: false, //False means open
+      state: true, //False means open
       name: nom
     });
   }

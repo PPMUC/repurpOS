@@ -18,7 +18,7 @@ export default class controller {
     for (const [, value] of Object.entries(
       this.app.$store.state.machine.limitSwitches
     )) {
-      console.log(value)
+      console.log(value);
       //Return name of switch that isnt closed
       if (!value.state) {
         return value;
@@ -214,6 +214,18 @@ export default class controller {
     clearInterval(this.mcuUpdateInterval);
     // console.log(this._comms);
     this._comms.setAllTemperaturesOff();
+    return 1;
+  }
+
+  // Home button 1, turn light on
+  homeButton1() {
+    this._comms.lightOn();
+    return 1;
+  }
+
+  // Home button 2, turn light off
+  homeButton2() {
+    this._comms.lightOff();
     return 1;
   }
 }

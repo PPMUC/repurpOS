@@ -72,15 +72,40 @@
           </NumDisplay>
         </div>
       </div>
-      <div class="uk-flex uk-margin-xlarge-top uk-padding-small uk-width-1-2 ">
-          <button class="uk-button uk-button-large uk-button-danger uk-width-1-1 button-padding  uk-padding-remove">
-                <span class="uk-text uk-text-small uk-text-center uk-width-1-1">Grind</span>
-          </button> 
+      <div
+        v-if="shButtonsLength > 0"
+        :class="shButtonsLength === 1 ? 'uk-width-1-1' : 'uk-width-1-2'"
+        class="uk-flex uk-margin-xlarge-top uk-padding-remove"
+      >
+        <button
+          @click="homeButton1"
+          class="
+            uk-button uk-button-large uk-button-danger uk-width-1-1
+            button-padding
+            uk-padding-remove
+          "
+        >
+          <span class="uk-text uk-text-small uk-text-center uk-width-1-1">{{
+            shButtons[0].name
+          }}</span>
+        </button>
       </div>
-      <div class="uk-flex uk-margin-xlarge-top uk-padding-small uk-width-1-2 ">
-        <button class="uk-button uk-button-large uk-button-danger uk-width-1-1 button-padding uk-padding-remove">
-                <span class="uk-text uk-text-small uk-text-center uk-width-1-1">New</span>
-          </button> 
+      <div
+        v-if="shButtonsLength > 1"
+        class="uk-flex uk-margin-xlarge-top uk-padding-remove uk-width-1-2"
+      >
+        <button
+          @click="homeButton2"
+          class="
+            uk-button uk-button-large uk-button-danger uk-width-1-1
+            button-padding
+            uk-padding-remove
+          "
+        >
+          <span class="uk-text uk-text-small uk-text-center uk-width-1-1">{{
+            shButtons[1].name
+          }}</span>
+        </button>
       </div>
     </div>
   </div>
@@ -90,8 +115,9 @@
   // @ is an alias to /src
   import NumDisplay from "@/components/NumDisplay";
   import * as machineVariables from "@/controller/machine_info";
+  import * as guiSettings from "@/controller/GUI";
   import * as structures from "@/cfg/structures";
-  import { mapGetters, mapMutations } from "vuex";
+  import { mapGetters, mapMutations, mapActions } from "vuex";
   import * as Util from "@/classes/Util";
 
   export default {
@@ -104,7 +130,8 @@
         OPTIONAL_SENSOR_INFO: machineVariables.OPTIONAL_SENSOR_INFO,
         display: false,
         warning: false,
-        HEATING_ZONES: machineVariables.HEATING_ZONES
+        HEATING_ZONES: machineVariables.HEATING_ZONES,
+        shButtons: guiSettings.FRONT_PAGE_BUTTONS
       };
     },
     computed: {
@@ -115,6 +142,9 @@
       }),
       smallSensors() {
         return this.optionalSensors;
+      },
+      shButtonsLength() {
+        return this.shButtons.length;
       }
     },
     methods: {
@@ -163,6 +193,10 @@
       ...mapMutations({
         setSetpoint: "machine/setSetpoint",
         editFirstCurrentPoint: "profile/editFirstCurrentPoint"
+      }),
+      ...mapActions({
+        homeButton1: "machine/homeButton1",
+        homeButton2: "machine/homeButton2"
       })
     }
   };

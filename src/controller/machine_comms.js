@@ -12,12 +12,12 @@ export default class machine_comms {
     this.app = app;
     this._events = {
       dataReady: [],
-      error: [],
+      error: []
     };
     //Setup com port
     port = new SerialPort(machine_info.COM_PORT, {
       baudRate: 115200,
-      autoOpen: false,
+      autoOpen: false
     });
     port.on("error", (err) => {
       console.log(err);
@@ -53,6 +53,19 @@ export default class machine_comms {
       this.app.$store.commit("machine/setSetpoint", [key, 0]);
     }
     this.setTemperatures();
+  }
+
+  //Turn light on
+  lightOn() {
+    console.log("Light on not implemented yet");
+    Util.showError("Light on not implemented yet");
+    //this._writeToMachine()
+  }
+
+  //Turn light off
+  lightOff() {
+    console.log("Light off not implemented yet");
+    Util.showError("Light off not implemented yet");
   }
 
   _writeToMachine(message) {

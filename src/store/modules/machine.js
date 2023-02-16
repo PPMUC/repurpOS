@@ -116,6 +116,12 @@ const actions = {
   async attemptToPauseMachine({ dispatch, commit }) {
     dispatch("attemptToStartMachine");
     commit("setPause");
+  },
+  async homeButton1({ commit, state }) {
+    state.logic.homeButton1();
+  },
+  async homeButton2({ commit, state }) {
+    state.logic.homeButton2();
   }
 };
 

@@ -629,7 +629,7 @@
           name: this.profileName,
           description: this.profileDescription,
           datetime: Date.now().toString(),
-          points: [...this.proposedProfile]
+          points: [...this.proposedProfile] // Eg: [point 1, point 2, point 3]
         });
         console.log(this.saveProfileName);
         console.log(prof.datetime);

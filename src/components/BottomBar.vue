@@ -1,6 +1,6 @@
 <template>
   <div uk-grid>
-    <div id="leftBottomBar" class="uk-width-1-2 uk-text-left">
+    <div id="leftBottomBar" class="uk-width-1-3 uk-text-left">
       <router-link id="status-bar-item" to="/">
         <i class="fa fa-home"></i>
       </router-link>
@@ -13,11 +13,16 @@
         <span v-text="statusOptions[checkStatus]"></span>
       </router-link>
     </div>
-    <div id="rightBottomBar" class="uk-width-1-2 uk-text-right">
+    
+    <div id = "middleBottomBar" class="uk-width-1-2">
+         <p>{{timeStamp }}</p>
+    </div>
+
+    <div id="rightBottomBar" class="uk-width-1-3 uk-text-right">
       <router-link id="status-bar-item" to="/">
         <span v-text="checkUpdate"></span>
       </router-link>
-
+      
       <router-link id="status-bar-item" to="/shortcuts">
         <i class="fa fa-th-large"></i>
       </router-link>
@@ -29,8 +34,12 @@
   </div>
 </template>
 
+
 <script>
+import { objectTypeSpreadProperty } from '@babel/types';
+
 // @ is an alias to /src
+const date = new Date(); //date function 
 
 export default {
   name: "Home",
@@ -51,6 +60,7 @@ export default {
 
   data: function () {
     return {
+      timeStamp: "",
       statusOptions: {
         // h: 'Sheet Press Heating ...',
         on: "Sheet Press Running!",
@@ -58,6 +68,20 @@ export default {
       }
     };
   },
+
+   created() {
+      setInterval(this.getNow, 1000);
+            },
+  methods:{
+    getNow() {
+      const current = new Date();
+      const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+      const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+      const dateTime = date + '   '+ time
+      this.timeStamp = dateTime;
+   
+    }
+  }
 };
 </script>
 
@@ -73,6 +97,17 @@ export default {
   padding-left: 10px;
   color: white;
 }
+
+#middleBottomBar {
+  position: absolute;
+  bottom: 0px;
+  background-color: variables.$darkPPMColour;
+  line-height: 2; //changed to 2 to make it bigger - makes overall left bar bigger
+  color: white;
+  left: 280px;
+  padding-right: 100px;
+}
+
 #rightBottomBar {
   position: fixed;
   right: 0px;
@@ -87,7 +122,7 @@ export default {
   padding-top: 3px;
   padding-bottom: 4px;
   padding-right: 10px;
-  padding-left: 10px;
+  padding-left: 7px;
   text-decoration: none;
   color: white;
   background: variables.$darkPPMColour;

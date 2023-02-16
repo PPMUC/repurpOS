@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="uk-flex uk-margin-xlarge-top uk-padding-small uk-width-1-2 ">
-          <button class="uk-button uk-button-large uk-button-danger uk-width-1-1 button-padding  uk-padding-remove">
+          <button class="uk-button uk-button-large uk-button-danger uk-width-1-1 button-padding uk-padding-remove">
                 <span class="uk-text uk-text-small uk-text-center uk-width-1-1">Grind</span>
           </button> 
       </div>

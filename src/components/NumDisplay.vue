@@ -12,7 +12,6 @@
         <span v-if="!isBig && hasSetpoint" class="uk-text-small unit setpoint-small">/{{setpoint}}</span>
         <span v-if="isBig && hasSetpoint" class="uk-text-small unit setpoint-big">/ {{setpoint}}</span>
       </div>
-
     </div>
     <div>
       <p class="uk-text-small uk-text-center uk-text-capitalize">{{name}}</p>

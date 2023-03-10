@@ -23,7 +23,6 @@ export default class controller {
       if (!value.state) {
         return value;
       }
-      console.log(key.state);
     }
     return 0;
   }
